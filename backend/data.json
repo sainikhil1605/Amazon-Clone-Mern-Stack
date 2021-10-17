@@ -1,0 +1,37 @@
+[
+  {
+    "productName": "Redmi 9(Sporty Orangem 4GB RAM, 64 GB Storage)",
+    "productRating": 4,
+    "productDescription": "Redmi 9",
+    "productPrice": 8499,
+    "productImage": "1.png"
+  },
+  {
+    "productName": "Samsung M12(Blue, 4GB RAM, 64 GB Storage)",
+    "productRating": 4,
+    "productDescription": "Samsung M12",
+    "productPrice": 9.499,
+    "productImage": "3.png"
+  },
+  {
+    "productName": "Redmi 10(Aqua Green, 4GB RAM, 64 GB Storage)",
+    "productRating": 4,
+    "productDescription": "Redmi 10",
+    "productPrice": 13999,
+    "productImage": "2.png"
+  },
+  {
+    "productName": "Redmi 10S(Deep See Blue, 6GB RAM, 64 GB Storage)",
+    "productRating": 4,
+    "productDescription": "Redmi 10S",
+    "productPrice": 13999,
+    "productImage": "3.png"
+  },
+  {
+    "productName": "OPPO A31(Black, 6GB RAM, 128 GB Storage)",
+    "productRating": 4,
+    "productDescription": "OPPO A31",
+    "productPrice": 11490,
+    "productImage": "4.png"
+  }
+]
