@@ -2,24 +2,35 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/UserModel');
 
-exports.LoginController = ((req, res) => {
+exports.LoginController = (req, res) => {
   const { userEmail, userPassword } = req.body;
+  console.log(req.body);
   UserModel.findOne({ userEmail }, (_err, doc) => {
-    bcrypt.compare(userPassword, doc.userPassword, (err, isPasswordMatch) => {
-      if (err) {
-        res.status(401);
-        res.send('Email or Password Does Not Match');
-      }
-      if (isPasswordMatch) {
-        res.status(200);
-        const token = jwt.sign({ userEmail: doc.userEmail, userPassword: doc.userPassword }, 'nikhil', { expiresIn: '2h' });
-        const isCorrect = jwt.verify(token, 'nikhil');
-        res.send(isCorrect);
-      }
-    });
+    if (doc === null) {
+      res.status(401);
+      res.send({ status: 'Username doesnot match' });
+    } else {
+      bcrypt.compare(userPassword, doc.userPassword, (err, isPasswordMatch) => {
+        if (!isPasswordMatch) {
+          res.status(401);
+          res.send({ status: 'Email or Password Does Not Match' });
+        }
+        console.log(isPasswordMatch);
+        if (isPasswordMatch) {
+          res.status(200);
+          const token = jwt.sign(
+            { userEmail: doc.userEmail, userPassword: doc.userPassword },
+            'nikhil',
+            { expiresIn: '2h' }
+          );
+
+          res.send({ status: 'Login Success', token });
+        }
+      });
+    }
   });
-});
-exports.SignUpController = ((req, res) => {
+};
+exports.SignUpController = (req, res) => {
   const { userPassword } = req.body;
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
@@ -40,4 +51,4 @@ exports.SignUpController = ((req, res) => {
       });
     }
   });
-});
+};

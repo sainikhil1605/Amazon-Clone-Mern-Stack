@@ -1,12 +1,14 @@
-
+import React from 'react';
 import { Route, Switch } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import './App.css';
-import NavBar from './components/NavBar/NavBar';
-import { useLocation } from "react-router-dom"
 import Home from './components/Home/Home';
+import Login from './components/Login/Login';
+import NavBar from './components/NavBar/NavBar';
+
 function App() {
-  const location = useLocation()
-  const pathArray = ["/", "/checkout"]
+  const location = useLocation();
+  const pathArray = ['/', '/checkout'];
   return (
     <div className="App">
       {pathArray.indexOf(location.pathname) !== -1 ? <NavBar /> : null}
@@ -15,7 +17,7 @@ function App() {
           <h1>Checkout</h1>
         </Route>
         <Route path="/login">
-          <h1>Login</h1>
+          <Login />
         </Route>
         <Route path="/">
           <Home />
