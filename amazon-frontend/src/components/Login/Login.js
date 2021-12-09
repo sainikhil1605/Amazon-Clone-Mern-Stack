@@ -6,7 +6,7 @@ import {
   LoginContainer,
   LoginFieldContainer,
   LoginHeading,
-  OuterContainer
+  OuterContainer,
 } from './Login.styles';
 
 function Login() {
@@ -27,15 +27,6 @@ function Login() {
         localStorage.removeItem('token');
         localStorage.setItem('token', res.data.token);
         console.log(localStorage.getItem('token'));
-      })
-      .then(() => {
-        axios
-          .post('http://localhost:4000/get-cart', {
-            token: localStorage.getItem('token'),
-          })
-          .then((res) => {
-            console.log(res.data);
-          });
       })
       .catch((err) => {
         console.log('hi');
