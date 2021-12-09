@@ -138,5 +138,40 @@
     "category": "Grocery",
     "rating": 2.6,
     "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl."
+  },
+  {
+    "name": "Redmi 9(Sporty Orangem 4GB RAM, 64 GB Storage)",
+    "rating": 4,
+    "category": "Electronics",
+    "description": "Redmi 9",
+    "price": 8499
+  },
+  {
+    "name": "Samsung M12(Blue, 4GB RAM, 64 GB Storage)",
+    "rating": 4,
+    "category": "Electronics",
+    "description": "Samsung M12",
+    "price": 9.499
+  },
+  {
+    "name": "Redmi 10(Aqua Green, 4GB RAM, 64 GB Storage)",
+    "rating": 4,
+    "category": "Electronics",
+    "description": "Redmi 10",
+    "price": 13999
+  },
+  {
+    "name": "Redmi 10S(Deep See Blue, 6GB RAM, 64 GB Storage)",
+    "rating": 4,
+    "category": "Electronics",
+    "description": "Redmi 10S",
+    "price": 13999
+  },
+  {
+    "name": "OPPO A31(Black, 6GB RAM, 128 GB Storage)",
+    "rating": 4,
+    "category": "Electronics",
+    "description": "OPPO A31",
+    "price": 11490
   }
 ]
