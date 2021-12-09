@@ -17,7 +17,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use('/api/v1', require('./routes/User'));
-// app.use('/api/v1/products', require('./routes/Product'));
+app.use('/api/v1/products', require('./routes/Product'));
 
 app.use(notFoundMiddleWare);
 app.use(errorHandler);
