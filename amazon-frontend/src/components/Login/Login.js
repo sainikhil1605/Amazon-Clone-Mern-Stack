@@ -1,11 +1,15 @@
 import { Button, TextField } from '@mui/material';
-import axios from 'axios';
+import jwt from 'jwt-decode';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import logo from '../../logo.png';
+import axiosInstance from '../../utils/axiosInstance';
 import {
   InnerContainer,
   LoginContainer,
   LoginFieldContainer,
   LoginHeading,
+  LoginImage,
   OuterContainer,
 } from './Login.styles';
 
@@ -13,37 +17,36 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(null);
-  const [token, setToken] = useState(null);
-  const onSubmit = () => {
+  const history = useHistory();
+
+  const onSubmit = async () => {
     setLoginError(null);
-    axios
-      .post('http://localhost:4000/login', {
-        userEmail: email,
-        userPassword: password,
-      })
-      .then((res) => {
-        setToken(res.data.token);
-        console.log(res.data);
-        localStorage.removeItem('token');
-        localStorage.setItem('token', res.data.token);
-        console.log(localStorage.getItem('token'));
-      })
-      .catch((err) => {
-        console.log('hi');
-        console.log(err.response.data.status);
-        setLoginError(err.response.data.status);
-      });
+
+    const res = await axiosInstance.post('/login', {
+      email,
+      password,
+    });
+    if (res.status === 200) {
+      const { name } = jwt(res.data.token);
+      localStorage.setItem('name', name);
+      localStorage.removeItem('token');
+      localStorage.setItem('token', res.data.token);
+      history.push('/');
+    } else {
+      setLoginError(res.response.data.error);
+    }
   };
   return (
     <OuterContainer>
       <InnerContainer>
         <LoginContainer>
+          <LoginImage src={logo} alt="Logo Image" />
           <LoginHeading>Login</LoginHeading>
           <LoginFieldContainer>
             {loginError && <p>{loginError}</p>}
             <TextField
               type="text"
-              label="Login"
+              label="Email"
               varaint="outlined"
               fullWidth
               value={email}

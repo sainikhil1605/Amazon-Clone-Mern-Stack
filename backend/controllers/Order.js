@@ -13,7 +13,7 @@ const addOrderDetails = async (order) => {
       const productPrice = productDetails.price;
       const tempObj = { ...product, productName, productPrice };
       return tempObj;
-    })
+    }),
   );
   return { ...order, products: temp };
 };
@@ -21,13 +21,13 @@ const getOrders = async (req, res) => {
   const orders = await Order.findOne({ createdBy: req.user.userId })
     .lean()
     .exec();
-  const newOrders = await Promise.all(
-    orders.orders.map(async (order) => addOrderDetails(order))
-  );
 
   if (!orders) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json('Something went wrong');
+    res.status(StatusCodes.OK).json('This user has no orders');
   }
+  const newOrders = await Promise.all(
+    orders.orders.map(async (order) => addOrderDetails(order)),
+  );
   res.status(StatusCodes.OK).json({ orders: newOrders });
 };
 const addOrders = async (req, res) => {

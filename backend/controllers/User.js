@@ -3,20 +3,26 @@ const User = require('../models/User');
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
   if (!email || !password) {
     res
       .status(StatusCodes.BAD_REQUEST)
       .json({ error: 'Email and password are required' });
   }
   const user = await User.findOne({ email });
-  const checkPassword = user.comparePassword(password);
-  if (!checkPassword) {
-    res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ error: 'Invalid email or password' });
+  if (!user) {
+    res.status(StatusCodes.BAD_REQUEST).json({ error: 'User not found' });
+  } else {
+    const checkPassword = user.comparePassword(password);
+    if (!checkPassword) {
+      res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ error: 'Invalid email or password' });
+    } else {
+      const token = user.generateJWT();
+      res.status(200).json({ token });
+    }
   }
-  const token = user.generateJWT();
-  res.status(200).json({ token });
 };
 const signup = async (req, res) => {
   const user = await User.create({ ...req.body });

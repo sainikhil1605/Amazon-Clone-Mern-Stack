@@ -9,7 +9,7 @@ const BannerImage = styled.img`
   width: 100%;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
   z-index: -1;
-  margin-bottom: -300px;
+  margin-bottom: -200px;
 `;
 const ProductsContainer = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const ProductsContainer = styled.div`
   z-index: 1;
   margin-left: 5px;
   margin-right: 5px;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
 `;
 
 export { HomeContainer, BannerImage, ProductsContainer };

@@ -9,9 +9,10 @@ import {
   ProductRating,
 } from './ProductElements';
 
-function Product({ title, price, rating }) {
+function Product({ title, price, rating, description }) {
   return (
     <ProductContainer>
+      <ProductImage src={logo} alt="Product Image" />
       <ProductInfo>
         <p>{title}</p>
         <ProductPrice>
@@ -19,14 +20,14 @@ function Product({ title, price, rating }) {
           <strong>{price}</strong>
         </ProductPrice>
         <ProductRating>
-          {Array(rating)
+          {Array(Math.floor(rating))
             .fill()
             .map((_) => (
               <span>⭐</span>
             ))}
         </ProductRating>
+        <p>{description}</p>
       </ProductInfo>
-      <ProductImage src={logo} alt="Ok" />
       <ProductButton>Add to Cart</ProductButton>
     </ProductContainer>
   );

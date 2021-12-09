@@ -22,9 +22,16 @@ const LoginContainer = styled(Paper)`
 `;
 const LoginHeading = styled.h1`
   font-weight: 400;
+  margin: 28px;
 `;
 const LoginFieldContainer = styled.div`
   margin-bottom: 28px;
+`;
+const LoginImage = styled.img`
+  object-fit: contain;
+  width: 100%;
+  max-height: 200px;
+  margin-bottom: 15px;
 `;
 export {
   OuterContainer,
@@ -32,4 +39,5 @@ export {
   LoginContainer,
   LoginHeading,
   LoginFieldContainer,
+  LoginImage,
 };

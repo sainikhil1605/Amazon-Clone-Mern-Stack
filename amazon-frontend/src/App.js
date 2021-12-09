@@ -1,11 +1,11 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
-import { useLocation } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import './App.css';
 import Checkout from './components/Checkout/Checkout';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/NavBar';
+import Orders from './components/Orders/Orders';
 
 function App() {
   const location = useLocation();
@@ -14,14 +14,17 @@ function App() {
     <div className="App">
       {pathArray.indexOf(location.pathname) !== -1 ? <NavBar /> : null}
       <Switch>
-        <Route path="/checkout">
+        <Route exact path="/checkout">
           <Checkout />
         </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           <Login />
         </Route>
-        <Route path="/">
+        <Route exact path="/">
           <Home />
+        </Route>
+        <Route exact path="/orders">
+          <Orders />
         </Route>
       </Switch>
     </div>

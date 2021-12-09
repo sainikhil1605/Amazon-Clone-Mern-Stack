@@ -7,7 +7,7 @@ const ProductContainer = styled.div`
   justify-content: flex-end;
   justify-items: flex-start;
   max-height: 400px;
-  min-width: 100px;
+  max-width: 400px;
   margin: 10px;
   padding: 20px;
   width: 100%;
@@ -15,6 +15,9 @@ const ProductContainer = styled.div`
   z-index: 1;
   margin: 10px;
   padding: 10px;
+  @media (max-width: 780px) {
+    max-width: 100%;
+  }
 `;
 const ProductPrice = styled.p`
   margin-top: 5px;
@@ -32,8 +35,10 @@ const ProductButton = styled.button`
   border-color: #f0c14b #9c7e31 #846a29;
 `;
 const ProductInfo = styled.div`
-  height: 100px;
-  margin-bottom: 15px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 export {
   ProductContainer,

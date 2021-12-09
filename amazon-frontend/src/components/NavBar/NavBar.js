@@ -30,10 +30,12 @@ function NavBar() {
         <NavLink to="/login">
           <NavItem>
             <NavUpperSpan>Hello,</NavUpperSpan>
-            <NavLowerSpan>Sign In</NavLowerSpan>
+            <NavLowerSpan>
+              {localStorage.getItem('name') || 'Sign In'}
+            </NavLowerSpan>
           </NavItem>
         </NavLink>
-        <NavLink to="/login">
+        <NavLink to="/orders">
           <NavItem>
             <NavUpperSpan>Returns</NavUpperSpan>
             <NavLowerSpan>& Orders</NavLowerSpan>
