@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import logo from '../../logo.png';
