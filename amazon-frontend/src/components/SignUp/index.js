@@ -1,5 +1,4 @@
 import { Button, TextField } from '@mui/material';
-import jwt from 'jwt-decode';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from '../../logo.png';
@@ -11,29 +10,29 @@ import {
   LoginHeading,
   LoginImage,
   OuterContainer,
-} from './Login.styles';
+} from '../Login/Login.styles';
 
-function Login() {
+function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState(null);
+  const [name, setName] = useState('');
+  const [singUpError, setSignUpError] = useState(null);
   const history = useHistory();
 
   const onSubmit = async () => {
-    setLoginError(null);
-
-    const res = await axiosInstance.post('/login', {
+    setSignUpError(null);
+    const res = await axiosInstance.post('/signUp', {
+      name,
       email,
       password,
     });
     if (res.status === 200) {
-      const { name } = jwt(res.data.token);
       localStorage.setItem('name', name);
       localStorage.removeItem('token');
       localStorage.setItem('token', res.data.token);
       history.push('/');
     } else {
-      setLoginError(res.response.data.error);
+      setSignUpError(res.response.data.error);
     }
   };
   return (
@@ -43,7 +42,17 @@ function Login() {
           <LoginImage src={logo} alt="Logo Image" />
           <LoginHeading>Login</LoginHeading>
           <LoginFieldContainer>
-            {loginError && <p>{loginError}</p>}
+            {singUpError && <p>{singUpError}</p>}
+            <TextField
+              type="text"
+              label="Name"
+              variant="outlined"
+              fullWidth
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </LoginFieldContainer>
+          <LoginFieldContainer>
             <TextField
               type="text"
               label="Email"
@@ -70,14 +79,10 @@ function Login() {
           >
             Login
           </Button>
-          <div>
-            New User?
-            <Button onClick={() => history.push('/signUp')}>SingUp</Button>
-          </div>
         </LoginContainer>
       </InnerContainer>
     </OuterContainer>
   );
 }
 
-export default Login;
+export default SignUp;

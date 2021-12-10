@@ -1,8 +1,8 @@
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect, useState } from 'react';
 import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
+import Loader from '../../utils/loader';
 import { ProductImage } from '../Product/ProductElements';
 import {
   InnerContainer,
@@ -27,7 +27,6 @@ import {
 const calculateTotalCost = (order) => {
   const totalCost = order.products.reduce(
     (acc, product) => acc + product.productPrice * product.quantity,
-    // eslint-disable-next-line comma-dangle
     0
   );
   return totalCost;
@@ -35,75 +34,88 @@ const calculateTotalCost = (order) => {
 function Orders() {
   const styles = OrderStyles();
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getOrders = async () => {
+      setLoading(true);
       const res = await axiosInstance.get('/orders');
+      console.log(loading);
       if (res.status === 200) {
-        console.log(res.data);
         setOrders(res.data.orders);
       }
     };
     getOrders();
+    setLoading(false);
   }, []);
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <OuterContainer>
       <InnerContainer>
         <OrderHeading role="heading">Your Orders</OrderHeading>
-        {orders.map((order) => (
-          <OrderPaper>
-            <OrderDetails>
-              <div className={styles.flexContainer}>
-                <OrderId>
-                  Order <span className={styles.orderId}>{order._id}</span>
-                </OrderId>
-                <OrderPlaced>
-                  Order Placed :{' '}
-                  <span className={styles.orderPlaced}>
-                    {new Date(order.orderedAt).toLocaleString()}
-                  </span>
-                </OrderPlaced>
-              </div>
-              <TrackOrder>Track Order</TrackOrder>
-            </OrderDetails>
-            {order.products.map((product) => (
-              <OrderSpecificDetails>
-                <OrderImageContainer>
-                  <ProductImage src={logo} alt="product" />
-                </OrderImageContainer>
-                <OrderNameContainer>
-                  <div>{product.productName}</div>
-                  <div className={styles.grayDiv}>By: Levis</div>
-                  <PriceOrderContainer>
-                    <OrderQuantity className={styles.grayDiv}>
-                      Qty: {'  '}
-                      {product.quantity}
-                    </OrderQuantity>
-                    <div className={styles.price}>
-                      Rs: {product.productPrice}
-                    </div>
-                  </PriceOrderContainer>
-                </OrderNameContainer>
-                <OrderStatus>
-                  <span className={styles.grayDiv}>Status</span>{' '}
-                  <div className={styles.OrderStatus}>{order.orderStatus}</div>{' '}
-                </OrderStatus>
-                <OrderDelivery>
-                  <span className={styles.grayDiv}>Delivery Expected On</span>{' '}
-                  <div className={styles.OrderDelivery}>20/10/2021</div>
-                </OrderDelivery>
-              </OrderSpecificDetails>
-            ))}
-            <OrderPaymentDetails>
-              <div>Cancel Order</div>
-              <div className={styles.grayDiv}>
-                Payed using credit card ending with 1234
-              </div>
-              <div className={styles.OrderDelivery}>
-                Rs. {calculateTotalCost(order)}
-              </div>
-            </OrderPaymentDetails>
-          </OrderPaper>
-        ))}
+
+        {!orders && (
+          <OrderPaper>This place is empty order something</OrderPaper>
+        )}
+        {orders &&
+          orders.map((order) => (
+            <OrderPaper key={order._id}>
+              <OrderDetails>
+                <div className={styles.flexContainer}>
+                  <OrderId>
+                    Order <span className={styles.orderId}>{order._id}</span>
+                  </OrderId>
+                  <OrderPlaced>
+                    Order Placed :{' '}
+                    <span className={styles.orderPlaced}>
+                      {new Date(order.orderedAt).toLocaleString()}
+                    </span>
+                  </OrderPlaced>
+                </div>
+                <TrackOrder>Track Order</TrackOrder>
+              </OrderDetails>
+              {order.products.map((product) => (
+                <OrderSpecificDetails key={product._id}>
+                  <OrderImageContainer>
+                    <ProductImage src={logo} alt="product" />
+                  </OrderImageContainer>
+                  <OrderNameContainer>
+                    <div>{product.productName}</div>
+                    <div className={styles.grayDiv}>By: Levis</div>
+                    <PriceOrderContainer>
+                      <OrderQuantity className={styles.grayDiv}>
+                        Qty: {'  '}
+                        {product.quantity}
+                      </OrderQuantity>
+                      <div className={styles.price}>
+                        Rs: {product.productPrice}
+                      </div>
+                    </PriceOrderContainer>
+                  </OrderNameContainer>
+                  <OrderStatus>
+                    <span className={styles.grayDiv}>Status</span>{' '}
+                    <div className={styles.OrderStatus}>
+                      {order.orderStatus}
+                    </div>{' '}
+                  </OrderStatus>
+                  <OrderDelivery>
+                    <span className={styles.grayDiv}>Delivery Expected On</span>{' '}
+                    <div className={styles.OrderDelivery}>20/10/2021</div>
+                  </OrderDelivery>
+                </OrderSpecificDetails>
+              ))}
+              <OrderPaymentDetails>
+                <div>Cancel Order</div>
+                <div className={styles.grayDiv}>
+                  Payed using credit card ending with 1234
+                </div>
+                <div className={styles.OrderDelivery}>
+                  Rs. {calculateTotalCost(order)}
+                </div>
+              </OrderPaymentDetails>
+            </OrderPaper>
+          ))}
       </InnerContainer>
     </OuterContainer>
   );

@@ -1,7 +1,6 @@
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
+import Loader from '../../utils/loader';
 import banner from '../gradimage.jpg';
 import Product from '../Product';
 import { BannerImage, HomeContainer, ProductsContainer } from './HomeElements';
@@ -21,11 +20,7 @@ function Home() {
     setLoading(false);
   }, []);
   if (loading) {
-    return (
-      <Box sx={{ display: 'flex' }}>
-        <CircularProgress />
-      </Box>
-    );
+    return <Loader />;
   }
   return (
     <HomeContainer>
@@ -38,36 +33,9 @@ function Home() {
             price={product.price}
             rating={product.rating}
             description={product.description}
+            product={product}
           />
         ))}
-      </ProductsContainer>
-      <ProductsContainer>
-        <Product
-          id="12345"
-          title="The amazon The amazonThe amazon The amazon The amazon The amazon The amazon"
-          price={100}
-          rating={5}
-        />
-        <Product
-          id="12345"
-          title="The amazon The amazonThe amazon The amazon The amazon The amazon The amazon"
-          price={100}
-          rating={5}
-        />
-        <Product
-          id="12345"
-          title="The amazon The amazonThe amazon The amazon The amazon The amazon The amazon"
-          price={100}
-          rating={5}
-        />
-      </ProductsContainer>
-      <ProductsContainer>
-        <Product
-          id="12345"
-          title="The amazon The amazonThe amazon The amazon The amazon The amazon The amazon"
-          price={100}
-          rating={5}
-        />
       </ProductsContainer>
     </HomeContainer>
   );

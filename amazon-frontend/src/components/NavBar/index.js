@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../logo2.png';
+import { Context } from '../Context/Provider';
 import {
   BasketIcon,
   BasketIconContainer,
@@ -17,6 +18,8 @@ import {
 } from './NavBarElements';
 
 function NavBar() {
+  const [cart, dispatch] = React.useContext(Context);
+  useEffect(() => {}, [cart]);
   return (
     <NavContainer>
       <Link to="/">
@@ -50,7 +53,7 @@ function NavBar() {
         <NavLink to="/checkout">
           <BasketIconContainer>
             <BasketIcon />
-            <span>0</span>
+            <span>{JSON.parse(localStorage.getItem('cart')).length}</span>
           </BasketIconContainer>
         </NavLink>
       </NavLinkContainer>
