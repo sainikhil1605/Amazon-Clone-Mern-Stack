@@ -53,7 +53,7 @@ function NavBar() {
         <NavLink to="/checkout">
           <BasketIconContainer>
             <BasketIcon />
-            <span>{JSON.parse(localStorage.getItem('cart')).length}</span>
+            <span>{JSON.parse(localStorage.getItem('cart')).length || 0}</span>
           </BasketIconContainer>
         </NavLink>
       </NavLinkContainer>
