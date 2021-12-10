@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import logo from '../../logo.png';
 import {
@@ -9,7 +10,8 @@ import {
   ProductRating,
 } from './ProductElements';
 
-function Product({ title, price, rating, description }) {
+function Product(props) {
+  const { title, price, rating, description } = props;
   return (
     <ProductContainer>
       <ProductImage src={logo} alt="Product Image" />

@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect, useState } from 'react';
 import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
@@ -25,6 +27,7 @@ import {
 const calculateTotalCost = (order) => {
   const totalCost = order.products.reduce(
     (acc, product) => acc + product.productPrice * product.quantity,
+    // eslint-disable-next-line comma-dangle
     0
   );
   return totalCost;
