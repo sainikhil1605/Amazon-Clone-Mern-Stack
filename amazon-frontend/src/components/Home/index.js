@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
 import banner from '../gradimage.jpg';
-import Product from '../Product/Product';
+import Product from '../Product';
 import { BannerImage, HomeContainer, ProductsContainer } from './HomeElements';
 
 function Home() {

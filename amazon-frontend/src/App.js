@@ -1,17 +1,19 @@
+import { MuiThemeProvider } from '@material-ui/core';
 import React from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import './App.css';
-import Checkout from './components/Checkout/Checkout';
-import Home from './components/Home/Home';
-import Login from './components/Login/Login';
-import NavBar from './components/NavBar/NavBar';
-import Orders from './components/Orders/Orders';
+import Checkout from './components/Checkout';
+import Home from './components/Home';
+import Login from './components/Login';
+import NavBar from './components/NavBar';
+import Orders from './components/Orders';
+import muitheme from './themes';
 
 function App() {
   const location = useLocation();
-  const pathArray = ['/', '/checkout'];
+  const pathArray = ['/', '/checkout', '/orders'];
   return (
-    <div className="App">
+    <MuiThemeProvider theme={muitheme}>
       {pathArray.indexOf(location.pathname) !== -1 ? <NavBar /> : null}
       <Switch>
         <Route exact path="/checkout">
@@ -27,7 +29,7 @@ function App() {
           <Orders />
         </Route>
       </Switch>
-    </div>
+    </MuiThemeProvider>
   );
 }
 
