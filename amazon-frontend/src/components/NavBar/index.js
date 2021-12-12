@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../Context/Cart/Provider';
+import { LoginContext } from '../../Context/Login/Provider';
 import logo from '../../logo2.png';
-import { Context } from '../Context/Provider';
 import {
   BasketIcon,
   BasketIconContainer,
@@ -18,8 +19,13 @@ import {
 } from './NavBarElements';
 
 function NavBar() {
-  const [cart, dispatch] = React.useContext(Context);
-  useEffect(() => {}, [cart]);
+  const [cart, cartDispatch] = useContext(CartContext);
+  const [loginState, dispatch] = useContext(LoginContext);
+  const handleLogout = () => {
+    dispatch({ type: 'LOGOUT' });
+    cartDispatch({ type: 'CLEAR_CART' });
+  };
+  useEffect(() => {}, [cart, loginState]);
   return (
     <NavContainer>
       <Link to="/">
@@ -33,9 +39,7 @@ function NavBar() {
         <NavLink to="/login">
           <NavItem>
             <NavUpperSpan>Hello,</NavUpperSpan>
-            <NavLowerSpan>
-              {localStorage.getItem('name') || 'Sign In'}
-            </NavLowerSpan>
+            <NavLowerSpan>{loginState.name || 'Sign In'}</NavLowerSpan>
           </NavItem>
         </NavLink>
         <NavLink to="/orders">
@@ -44,16 +48,17 @@ function NavBar() {
             <NavLowerSpan>& Orders</NavLowerSpan>
           </NavItem>
         </NavLink>
-        <NavLink to="/login">
+        <NavLink to="/">
           <NavItem>
-            <NavUpperSpan>Your</NavUpperSpan>
-            <NavLowerSpan>Prime</NavLowerSpan>
+            <NavUpperSpan onClick={() => handleLogout()}>
+              {loginState.isLoggedIn === true ? 'Log Out' : null}
+            </NavUpperSpan>
           </NavItem>
         </NavLink>
         <NavLink to="/checkout">
           <BasketIconContainer>
             <BasketIcon />
-            <span>{JSON.parse(localStorage.getItem('cart')).length}</span>
+            <span>{cart.length}</span>
           </BasketIconContainer>
         </NavLink>
       </NavLinkContainer>

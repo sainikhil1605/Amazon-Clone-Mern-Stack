@@ -1,7 +1,8 @@
 import { Button, TextField } from '@mui/material';
 import jwt from 'jwt-decode';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { LoginContext } from '../../Context/Login/Provider';
 import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
 import {
@@ -18,22 +19,36 @@ function Login() {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(null);
   const history = useHistory();
-
+  const location = useLocation();
+  const [state, dispatch] = React.useContext(LoginContext);
   const onSubmit = async () => {
     setLoginError(null);
+    if (!email || !password) {
+      setLoginError('Please enter email and password');
+      return;
+    }
+    try {
+      const res = await axiosInstance.post('/login', {
+        email,
+        password,
+      });
+      if (res.status === 200) {
+        const { name } = jwt(res.data.token);
+        dispatch({
+          type: 'LOGIN_SUCCESS',
+          payload: { token: res.data.token, name },
+        });
 
-    const res = await axiosInstance.post('/login', {
-      email,
-      password,
-    });
-    if (res.status === 200) {
-      const { name } = jwt(res.data.token);
-      localStorage.setItem('name', name);
-      localStorage.removeItem('token');
-      localStorage.setItem('token', res.data.token);
-      history.push('/');
-    } else {
-      setLoginError(res.response.data.error);
+        if (location.state && location.state.from.pathname !== '/') {
+          history.push(location.state.from.pathname);
+        } else {
+          history.push('/');
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      // setLoginError(err.response.data.err);
+      // dispatch({ type: 'LOGIN_FAILURE', payload: err.response.data.err });
     }
   };
   return (

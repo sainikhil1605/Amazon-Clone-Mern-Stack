@@ -1,15 +1,12 @@
 import styled from 'styled-components';
 
 const OuterContainer = styled.div`
-  height: 100%;
-  padding: 14px 18px 18px;
-  background-color: #eaeded !important;
+  display: flex;
+  margin: 10px;
 `;
 const InnerContainer = styled.div`
-  margin: auto;
-  background-color: white;
-  max-width: 750px;
-  padding: 20px;
+  padding: 10px;
+  width: 100%;
 `;
 const CheckoutContainer = styled.div`
   display: flex;
@@ -19,11 +16,59 @@ const ImageContainer = styled.div`
   flex: 1;
 `;
 const HeadingContainer = styled.div`
-  border-bottom: 1px solid #e5e5e5;
-  padding-bottom: 20px;
+  display: flex;
+  max-width: 150px;
+  align-items: center;
+  margin: auto;
 `;
 const ProductDescription = styled.div`
   display: flex;
+`;
+const CheckOutItem = styled.div`
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+const ProductPrice = styled.div`
+  padding: 40px 10px 0px 0px;
+`;
+const CheckOutItemDetails = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+const CheckOutImageContainer = styled.div`
+  max-width: 300px;
+`;
+const CheckOutNameContainer = styled.div`
+  padding: 40px 10px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+`;
+const CheckOutItems = styled.div`
+  padding: 20px 0px;
+`;
+const PriceOrderContainer = styled.div`
+  padding: 40px 10px 0px 0px;
+  display: flex;
+`;
+const OrderImageContainer = styled.div`
+  max-width: 300px;
+`;
+const CheckInnerContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+const PaymentContainer = styled.div`
+  padding: 40px 0px;
+  display: flex;
+  flex-direction: column;
 `;
 export {
   OuterContainer,
@@ -32,4 +77,14 @@ export {
   CheckoutContainer,
   ImageContainer,
   ProductDescription,
+  CheckOutItem,
+  CheckOutItemDetails,
+  CheckOutImageContainer,
+  CheckOutNameContainer,
+  CheckOutItems,
+  OrderImageContainer,
+  PriceOrderContainer,
+  ProductPrice,
+  PaymentContainer,
+  CheckInnerContainer,
 };

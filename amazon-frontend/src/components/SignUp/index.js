@@ -1,6 +1,8 @@
 import { Button, TextField } from '@mui/material';
+import jwt from 'jwt-decode';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { LoginContext } from '../../Context/Login/Provider';
 import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
 import {
@@ -18,21 +20,32 @@ function SignUp() {
   const [name, setName] = useState('');
   const [singUpError, setSignUpError] = useState(null);
   const history = useHistory();
-
+  const [state, dispatch] = React.useContext(LoginContext);
   const onSubmit = async () => {
     setSignUpError(null);
-    const res = await axiosInstance.post('/signUp', {
-      name,
-      email,
-      password,
-    });
-    if (res.status === 200) {
-      localStorage.setItem('name', name);
-      localStorage.removeItem('token');
-      localStorage.setItem('token', res.data.token);
-      history.push('/');
-    } else {
-      setSignUpError(res.response.data.error);
+    if (!name || !email || !password) {
+      setSignUpError('Please fill all the fields');
+      return;
+    }
+    try {
+      const res = await axiosInstance.post('/signUp', {
+        name,
+        email,
+        password,
+      });
+      if (res.status === 200) {
+        const { name } = jwt(res.data.token);
+        dispatch({
+          type: 'LOGIN_SUCCES',
+          payload: { token: res.data.token, name },
+        });
+
+        history.push('/');
+      } else {
+        setSignUpError(res.response.data.error);
+      }
+    } catch (error) {
+      setSignUpError(error.response.data.err);
     }
   };
   return (

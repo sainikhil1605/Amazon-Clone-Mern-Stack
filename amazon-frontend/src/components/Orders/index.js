@@ -38,14 +38,19 @@ function Orders() {
   useEffect(() => {
     const getOrders = async () => {
       setLoading(true);
-      const res = await axiosInstance.get('/orders');
-      console.log(loading);
-      if (res.status === 200) {
-        setOrders(res.data.orders);
+      try {
+        const res = await axiosInstance.get('/orders');
+
+        if (res.status === 200) {
+          setOrders(res.data.orders);
+        }
+        setLoading(false);
+      } catch (err) {
+        setOrders([]);
+        setLoading(false);
       }
     };
     getOrders();
-    setLoading(false);
   }, []);
   if (loading) {
     return <Loader />;
@@ -55,7 +60,7 @@ function Orders() {
       <InnerContainer>
         <OrderHeading role="heading">Your Orders</OrderHeading>
 
-        {!orders && (
+        {!orders && !loading && (
           <OrderPaper>This place is empty order something</OrderPaper>
         )}
         {orders &&

@@ -3,12 +3,14 @@ import React from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import './App.css';
 import Checkout from './components/Checkout';
-import { Provider } from './components/Context/Provider';
 import Home from './components/Home';
 import Login from './components/Login';
 import NavBar from './components/NavBar';
 import Orders from './components/Orders';
-import SingUp from './components/SignUp';
+import PrivateRoute from './components/PrivateRoute';
+import SignUp from './components/SignUp';
+import { CartProvider } from './Context/Cart/Provider';
+import { LoginProvider } from './Context/Login/Provider';
 import muitheme from './themes';
 
 function App() {
@@ -16,26 +18,29 @@ function App() {
   const pathArray = ['/', '/checkout', '/orders'];
   return (
     <MuiThemeProvider theme={muitheme}>
-      <Provider>
-        {pathArray.indexOf(location.pathname) !== -1 ? <NavBar /> : null}
-        <Switch>
-          <Route exact path="/signUp">
-            <SingUp />
-          </Route>
-          <Route exact path="/checkout">
-            <Checkout />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/orders">
-            <Orders />
-          </Route>
-        </Switch>
-      </Provider>
+      <LoginProvider>
+        <CartProvider>
+          {pathArray.indexOf(location.pathname) !== -1 ? <NavBar /> : null}
+
+          <Switch>
+            <Route exact path="/signUp">
+              <SignUp />
+            </Route>
+            <Route exact path="/checkout">
+              <Checkout />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <PrivateRoute exact path="/orders">
+              <Orders />
+            </PrivateRoute>
+          </Switch>
+        </CartProvider>
+      </LoginProvider>
     </MuiThemeProvider>
   );
 }

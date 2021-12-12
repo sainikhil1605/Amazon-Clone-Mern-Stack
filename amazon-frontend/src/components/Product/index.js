@@ -3,8 +3,8 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 import Rating from 'react-rating';
+import { CartContext } from '../../Context/Cart/Provider';
 import logo from '../../logo.png';
-import { Context } from '../Context/Provider';
 import {
   ProductButton,
   ProductContainer,
@@ -16,15 +16,14 @@ import {
 
 function Product(props) {
   const { title, price, rating, description, product } = props;
-  const [state, dispatch] = React.useContext(Context);
-  const [loading, setLoading] = React.useState(false);
+  const [state, dispatch] = React.useContext(CartContext);
+
   useEffect(() => {
     console.log(state);
   }, [state]);
 
   const addToCart = () => {
-    const temp = dispatch({ type: 'ADD_TO_CART', payload: product });
-    console.log(temp);
+    dispatch({ type: 'ADD_TO_CART', payload: product });
   };
   return (
     <ProductContainer>
@@ -32,7 +31,7 @@ function Product(props) {
       <ProductInfo>
         <p>{title}</p>
         <ProductPrice>
-          <small>$</small>
+          <small>Rs.</small>
           <strong>{price}</strong>
         </ProductPrice>
         <ProductRating>
@@ -48,7 +47,6 @@ function Product(props) {
       <ProductButton
         onClick={() => {
           addToCart();
-          setLoading((prev) => !prev);
         }}
       >
         Add to Cart

@@ -1,16 +1,14 @@
-import React, { createContext, useReducer } from 'react';
-
-const Context = createContext();
 const checkProduct = (cart, product) => {
   for (let i = 0; i < cart.length; i += 1) {
-    if (cart[i]._id === product._id) {
+    if (product !== undefined && cart[i]._id === product._id) {
       return i;
     }
   }
   return -1;
 };
-const reducer = (state, action) => {
+const Reducer = (state, action) => {
   const { type, payload } = action;
+
   const index = checkProduct(state, payload);
   const tempCart = [...state];
   switch (type) {
@@ -28,24 +26,26 @@ const reducer = (state, action) => {
       };
       localStorage.setItem('cart', JSON.stringify(tempCart));
       return tempCart;
+    case 'CLEAR_CART':
+      return [];
+    case 'REMOVE_FROM_CART':
+      tempCart.splice(payload.index, 1);
+      return tempCart;
+    case 'DECREASE_QUANTITY':
+      if (tempCart[payload].quantity === 1) {
+        tempCart.splice(payload, 1);
+        return tempCart;
+      }
+      tempCart[payload] = {
+        ...tempCart[payload],
+        quantity: tempCart[payload].quantity - 1,
+      };
+
+      return tempCart;
 
     default:
       return state;
   }
 };
-const Provider = ({ children }) => {
-  let value;
-  if (localStorage.getItem('cart')) {
-    value = [...JSON.parse(localStorage.getItem('cart'))];
-  } else {
-    value = [];
-  }
 
-  return (
-    <Context.Provider value={useReducer(reducer, value)}>
-      {children}
-    </Context.Provider>
-  );
-};
-
-export { Context, Provider };
+export default Reducer;

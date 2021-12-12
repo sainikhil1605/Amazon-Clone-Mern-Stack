@@ -18,6 +18,11 @@ const Logo = styled.img`
   object-fit: contain;
   margin: 10px 10px 10px 10px;
 `;
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+`;
 const SearchBar = styled.input`
   width: 100%;
   flex: 1;
@@ -82,6 +87,7 @@ export {
   SearchBar,
   SearchBarContainer,
   Searchicon,
+  FlexContainer,
   NavContainer,
   Logo,
 };

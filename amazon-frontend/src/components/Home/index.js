@@ -9,15 +9,15 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    setLoading(true);
     const getProducts = async () => {
+      setLoading(true);
       const res = await axiosInstance.get('/products');
       if (res.status === 200) {
         setProducts(res.data.products);
       }
+      setLoading(false);
     };
     getProducts();
-    setLoading(false);
   }, []);
   if (loading) {
     return <Loader />;
@@ -36,6 +36,9 @@ function Home() {
             product={product}
           />
         ))}
+      </ProductsContainer>
+      <ProductsContainer>
+        <div>Shop By Category</div>
       </ProductsContainer>
     </HomeContainer>
   );
