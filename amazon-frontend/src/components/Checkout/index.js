@@ -37,7 +37,7 @@ function Checkout() {
   const [cart, dispatch] = React.useContext(CartContext);
   const [loginState] = React.useContext(LoginContext);
   useEffect(() => [cart]);
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (!loginState.isLoggedIn) {
       history.push('/login');
     }
@@ -45,7 +45,7 @@ function Checkout() {
       productId: product._id,
       quantity: product.quantity,
     }));
-    axiosInstance.post('/orders', { products });
+    await axiosInstance.post('/orders', { products });
     history.push('/orders');
   };
   return (
@@ -141,7 +141,7 @@ function Checkout() {
               <div>Estimated Total</div>
               <div>{calculateTotalCost(cart)}</div>
             </CheckOutItemDetails>
-            <Button type="button" onClick={() => placeOrder(cart, loginState)}>
+            <Button type="button" onClick={() => placeOrder()}>
               Checkout
             </Button>
           </PaymentContainer>

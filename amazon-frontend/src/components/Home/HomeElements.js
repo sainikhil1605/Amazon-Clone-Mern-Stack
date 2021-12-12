@@ -15,8 +15,8 @@ const ProductsContainer = styled.div`
   display: flex;
   flex-direction: row;
   z-index: 1;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: auto;
+  justify-content: center;
   flex-wrap: wrap;
 `;
 
