@@ -24,6 +24,9 @@ const OrderStyles = makeStyles({
   flexContainer: {
     display: 'flex',
     flexDirection: 'row',
+    '@media(max-width: 600px)': {
+      flexDirection: 'column',
+    },
   },
 });
 
@@ -62,16 +65,25 @@ const OrderId = styled.div`
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
+  @media (max-width: 600px) {
+    text-align: center;
+  }
 `;
 const OrderPlaced = styled.div`
   padding: 10px 20px;
   color: gray;
+  @media (max-width: 600px) {
+    text-align: center;
+  }
 `;
 const OrderDetails = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px 20px;
   flex-direction: row;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 const TrackOrder = styled.div`
   padding: 10px 30px;
@@ -82,6 +94,11 @@ const TrackOrder = styled.div`
   background-color: orange;
   color: white;
   align-self: flex-end;
+  @media (max-width: 600px) {
+    padding: 10px 0px 10px 10px;
+    width: 100%;
+    text-align: center;
+  }
 `;
 const OrderSpecificDetails = styled.div`
   display: flex;
@@ -89,9 +106,13 @@ const OrderSpecificDetails = styled.div`
   flex-direction: row;
   padding: 20px 10px;
   justify-content: space-between;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 const OrderImageContainer = styled.div`
   max-width: 300px;
+  display: flex;
 `;
 const OrderNameContainer = styled.div`
   display: flex;

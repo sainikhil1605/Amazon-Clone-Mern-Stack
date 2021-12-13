@@ -5,7 +5,7 @@ const LoginContext = React.createContext();
 
 const LoginProvider = ({ children }) => {
   const initialState = {
-    isLoggedIn: localStorage.getItem('token') !== undefined || false,
+    isLoggedIn: localStorage.getItem('token') !== null,
     name: localStorage.getItem('name') || '',
   };
   return (

@@ -13,7 +13,7 @@ const addOrderDetails = async (order) => {
       const productPrice = productDetails.price;
       const tempObj = { ...product, productName, productPrice };
       return tempObj;
-    }),
+    })
   );
   return { ...order, products: temp };
 };
@@ -26,13 +26,12 @@ const getOrders = async (req, res) => {
     res.status(StatusCodes.OK).json('This user has no orders');
   }
   const newOrders = await Promise.all(
-    orders.orders.map(async (order) => addOrderDetails(order)),
+    orders.orders.map(async (order) => addOrderDetails(order))
   );
   res.status(StatusCodes.OK).json({ orders: newOrders });
 };
 const addOrders = async (req, res) => {
   const userOrder = await Order.findOne({ createdBy: req.user.userId });
-
   if (!userOrder) {
     const newOrder = await Order.create({
       createdBy: req.user.userId,
@@ -43,7 +42,7 @@ const addOrders = async (req, res) => {
   } else {
     userOrder.orders.push(req.body);
     await userOrder.save();
-    res.status(StatusCodes.OK).json({ order: userOrder });
+    res.status(StatusCodes.OK).json({ userOrder });
   }
 };
 const getOrder = async (req, res) => {

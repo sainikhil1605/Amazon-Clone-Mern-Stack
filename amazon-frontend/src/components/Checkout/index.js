@@ -46,6 +46,7 @@ function Checkout() {
       quantity: product.quantity,
     }));
     await axiosInstance.post('/orders', { products });
+    dispatch({ type: 'CLEAR_CART' });
     history.push('/orders');
   };
   return (

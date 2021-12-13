@@ -12,9 +12,11 @@ const InnerContainer = styled.div`
   max-width: 720px;
 `;
 const LoginContainer = styled(Paper)`
+  @media (max-width: 780px) {
+    padding: 20px 10px;
+  }
   padding: 40px 40px;
-  width: 100%;
-  height: 100%;
+
   text-align: center;
   margin-top: 10px;
   border-radius: 4px;

@@ -18,9 +18,7 @@ function Product(props) {
   const { title, price, rating, description, product } = props;
   const [state, dispatch] = React.useContext(CartContext);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
+  useEffect(() => {}, [state]);
 
   const addToCart = () => {
     dispatch({ type: 'ADD_TO_CART', payload: product });

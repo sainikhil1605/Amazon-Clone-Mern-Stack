@@ -46,9 +46,8 @@ function Login() {
         }
       }
     } catch (err) {
-      console.log(err);
-      // setLoginError(err.response.data.err);
-      // dispatch({ type: 'LOGIN_FAILURE', payload: err.response.data.err });
+      setLoginError(err.response.data.error);
+      dispatch({ type: 'LOGIN_FAILURE', payload: err.response.data.error });
     }
   };
   return (

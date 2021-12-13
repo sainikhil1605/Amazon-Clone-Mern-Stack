@@ -39,7 +39,7 @@ function Orders() {
     const getOrders = async () => {
       setLoading(true);
       try {
-        const res = await axiosInstance.get('/orders');
+        const res = await axiosInstance.get('/orders?sort=-orderedAt');
 
         if (res.status === 200) {
           setOrders(res.data.orders);

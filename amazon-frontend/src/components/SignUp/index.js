@@ -53,7 +53,7 @@ function SignUp() {
       <InnerContainer>
         <LoginContainer>
           <LoginImage src={logo} alt="Logo Image" />
-          <LoginHeading>Login</LoginHeading>
+          <LoginHeading>Sign Up</LoginHeading>
           <LoginFieldContainer>
             {singUpError && <p>{singUpError}</p>}
             <TextField
@@ -90,7 +90,7 @@ function SignUp() {
             color="primary"
             onClick={() => onSubmit()}
           >
-            Login
+            Sign Up
           </Button>
         </LoginContainer>
       </InnerContainer>

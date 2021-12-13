@@ -8,23 +8,26 @@ import { BannerImage, HomeContainer, ProductsContainer } from './HomeElements';
 function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const pages = [1, 2, 3];
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const res = await axiosInstance.get('/products');
+      const res = await axiosInstance.get(`/products?page=${page}`);
       if (res.status === 200) {
         setProducts(res.data.products);
       }
       setLoading(false);
     };
     getProducts();
-  }, []);
+  }, [page, setPage]);
   if (loading) {
     return <Loader />;
   }
   return (
     <HomeContainer>
       <BannerImage src={banner} />
+
       <ProductsContainer>
         {products.map((product) => (
           <Product
@@ -37,6 +40,28 @@ function Home() {
           />
         ))}
       </ProductsContainer>
+      <div
+        style={{
+          float: 'right',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        View More Products {'>>'}
+        {pages.map((pageNum) => (
+          <button
+            style={{ margin: '0px 10px' }}
+            type="button"
+            key={pageNum}
+            onClick={() => {
+              console.log(pageNum);
+              setPage(pageNum);
+            }}
+          >
+            {pageNum}
+          </button>
+        ))}
+      </div>
       <ProductsContainer>
         <div>Shop By Category</div>
       </ProductsContainer>

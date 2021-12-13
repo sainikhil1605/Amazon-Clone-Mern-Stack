@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const NavContainer = styled.nav`
-  height: 60px;
+  max-height: 200px;
   display: flex;
+  @media (max-width: 780px) {
+    flex-direction: column;
+  }
   flex-direction: row;
   background-color: #131921;
   justify-content: space-evenly;
@@ -13,10 +16,19 @@ const NavContainer = styled.nav`
   top: 0;
   z-index: 100;
 `;
+const LogoSearchContainer = styled.div`
+  display: flex;
+  @media (max-width: 780px) {
+    flex-direction: column;
+  }
+  flex-direction: row;
+  width: 100%;
+`;
 const Logo = styled.img`
-  width: 120px;
+  width: 100%;
+  height: 20px;
   object-fit: contain;
-  margin: 10px 10px 10px 10px;
+  margin: 20px 20px 10px 10px;
 `;
 const FlexContainer = styled.div`
   display: flex;
@@ -38,12 +50,14 @@ const Searchicon = styled(SearchIcon)`
 `;
 const SearchBarContainer = styled.div`
   display: flex;
+  margin: 0px 10px 0px 10px;
   flex: 1;
   flex-direction: row;
 `;
 const NavLinkContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
 `;
 const NavLink = styled(Link)`
   text-decoration: none;
@@ -90,4 +104,5 @@ export {
   FlexContainer,
   NavContainer,
   Logo,
+  LogoSearchContainer,
 };

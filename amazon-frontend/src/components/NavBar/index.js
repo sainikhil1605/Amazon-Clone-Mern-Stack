@@ -7,6 +7,7 @@ import {
   BasketIcon,
   BasketIconContainer,
   Logo,
+  LogoSearchContainer,
   NavContainer,
   NavItem,
   NavLink,
@@ -28,13 +29,15 @@ function NavBar() {
   useEffect(() => {}, [cart, loginState]);
   return (
     <NavContainer>
-      <Link to="/">
-        <Logo src={logo} alt="Logo" />
-      </Link>
-      <SearchBarContainer>
-        <SearchBar type="text" />
-        <Searchicon />
-      </SearchBarContainer>
+      <LogoSearchContainer>
+        <Link to="/">
+          <Logo src={logo} alt="Logo" />
+        </Link>
+        <SearchBarContainer>
+          <SearchBar type="text" />
+          <Searchicon />
+        </SearchBarContainer>
+      </LogoSearchContainer>
       <NavLinkContainer>
         <NavLink to="/login">
           <NavItem>
@@ -48,13 +51,16 @@ function NavBar() {
             <NavLowerSpan>& Orders</NavLowerSpan>
           </NavItem>
         </NavLink>
-        <NavLink to="/">
-          <NavItem>
-            <NavUpperSpan onClick={() => handleLogout()}>
-              {loginState.isLoggedIn === true ? 'Log Out' : null}
-            </NavUpperSpan>
-          </NavItem>
-        </NavLink>
+
+        {loginState.isLoggedIn ? (
+          <NavLink to="/">
+            <NavItem>
+              <NavUpperSpan onClick={() => handleLogout()}>
+                Log Out
+              </NavUpperSpan>
+            </NavItem>
+          </NavLink>
+        ) : null}
         <NavLink to="/checkout">
           <BasketIconContainer>
             <BasketIcon />
