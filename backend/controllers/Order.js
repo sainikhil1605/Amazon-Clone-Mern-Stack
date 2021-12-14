@@ -1,7 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-
+const Cart = require('../models/Cart');
 const addOrderDetails = async (order) => {
   const { products } = order;
   const temp = await Promise.all(
@@ -32,6 +32,7 @@ const getOrders = async (req, res) => {
 };
 const addOrders = async (req, res) => {
   const userOrder = await Order.findOne({ createdBy: req.user.userId });
+  await Cart.deleteMany({ createBy: req.user.userId });
   if (!userOrder) {
     const newOrder = await Order.create({
       createdBy: req.user.userId,

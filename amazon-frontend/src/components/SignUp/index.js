@@ -1,5 +1,4 @@
 import { Button, TextField } from '@mui/material';
-import jwt from 'jwt-decode';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { LoginContext } from '../../Context/Login/Provider';
@@ -21,6 +20,16 @@ function SignUp() {
   const [singUpError, setSignUpError] = useState(null);
   const history = useHistory();
   const [state, dispatch] = React.useContext(LoginContext);
+  // useEffect(() => {
+  //   document
+  //     .getElementById('signUpButton')
+  //     .addEventListener('keyup', (event) => {
+  //       if (event.keyCode === 13) {
+  //         event.preventDefault();
+  //         document.getElementById('signUpButton').click();
+  //       }
+  //     });
+  // }, []);
   const onSubmit = async () => {
     setSignUpError(null);
     if (!name || !email || !password) {
@@ -34,7 +43,6 @@ function SignUp() {
         password,
       });
       if (res.status === 200) {
-        const { name } = jwt(res.data.token);
         dispatch({
           type: 'LOGIN_SUCCES',
           payload: { token: res.data.token, name },
@@ -45,7 +53,11 @@ function SignUp() {
         setSignUpError(res.response.data.error);
       }
     } catch (error) {
-      setSignUpError(error.response.data.err);
+      if (error.response.data.err.includes('duplicate')) {
+        setSignUpError('Email already exists');
+      } else {
+        setSignUpError(error.response.data.err);
+      }
     }
   };
   return (
@@ -59,8 +71,10 @@ function SignUp() {
             <TextField
               type="text"
               label="Name"
+              id="Name"
               variant="outlined"
               fullWidth
+              autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -89,6 +103,8 @@ function SignUp() {
             variant="contained"
             color="primary"
             onClick={() => onSubmit()}
+            id="signUpButton"
+            onKeyDown={(e) => e.which === 13 && onSubmit()}
           >
             Sign Up
           </Button>

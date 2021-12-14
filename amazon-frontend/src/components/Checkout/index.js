@@ -42,12 +42,32 @@ function Checkout() {
       history.push('/login');
     }
     const products = cart.map((product) => ({
-      productId: product._id,
+      productId: product._id || product.productId,
       quantity: product.quantity,
     }));
     await axiosInstance.post('/orders', { products });
     dispatch({ type: 'CLEAR_CART' });
     history.push('/orders');
+  };
+  const handleRemove = async (index, product) => {
+    dispatch({
+      type: 'REMOVE_FROM_CART',
+      payload: { index },
+    });
+    const productId = product._id || product.productId;
+    await axiosInstance.delete(`/cart/${productId}`);
+  };
+  const handleDecrease = async (index, product) => {
+    dispatch({ type: 'DECREASE_QUANTITY', payload: index });
+    await axiosInstance.patch(`/cart/${product._id || product.productId}`, {
+      action: 'DECREASE',
+    });
+  };
+  const handleIncrease = async (index, product) => {
+    dispatch({ type: 'INCREASE_QUANTITY', payload: index });
+    await axiosInstance.patch(`/cart/${product._id || product.productId}`, {
+      action: 'INCREASE',
+    });
   };
   return (
     <OuterContainer>
@@ -70,12 +90,7 @@ function Checkout() {
                   <PriceOrderContainer>
                     <Button
                       type="button"
-                      onClick={() =>
-                        dispatch({
-                          type: 'REMOVE_FROM_CART',
-                          payload: { index },
-                        })
-                      }
+                      onClick={() => handleRemove(index, product)}
                     >
                       Remove
                     </Button>
@@ -93,9 +108,7 @@ function Checkout() {
                   <div>
                     <button
                       type="button"
-                      onClick={() => {
-                        dispatch({ type: 'DECREASE_QUANTITY', payload: index });
-                      }}
+                      onClick={() => handleDecrease(index, product)}
                     >
                       -
                     </button>
@@ -103,7 +116,7 @@ function Checkout() {
                     <button
                       type="button"
                       onClick={() =>
-                        dispatch({ type: 'ADD_TO_CART', payload: product })
+                        handleIncrease(index, product, product.quantity)
                       }
                     >
                       +

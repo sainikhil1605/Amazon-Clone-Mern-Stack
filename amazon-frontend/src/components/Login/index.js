@@ -11,7 +11,7 @@ import {
   LoginFieldContainer,
   LoginHeading,
   LoginImage,
-  OuterContainer,
+  OuterContainer
 } from './Login.styles';
 
 function Login() {
@@ -57,7 +57,7 @@ function Login() {
           <LoginImage src={logo} alt="Logo Image" />
           <LoginHeading>Login</LoginHeading>
           <LoginFieldContainer>
-            {loginError && <p>{loginError}</p>}
+            {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
             <TextField
               type="text"
               label="Email"

@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import Rating from 'react-rating';
 import { CartContext } from '../../Context/Cart/Provider';
 import logo from '../../logo.png';
+import axiosInstance from '../../utils/axiosInstance';
 import {
   ProductButton,
   ProductContainer,
@@ -20,8 +21,13 @@ function Product(props) {
 
   useEffect(() => {}, [state]);
 
-  const addToCart = () => {
+  const addToCart = async () => {
     dispatch({ type: 'ADD_TO_CART', payload: product });
+    const finalProduct = {
+      productId: product._id,
+      ...product,
+    };
+    await axiosInstance.post('/cart', { products: [finalProduct] });
   };
   return (
     <ProductContainer>
