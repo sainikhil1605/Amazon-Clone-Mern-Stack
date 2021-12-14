@@ -2,6 +2,7 @@ import { Button, TextField } from '@mui/material';
 import jwt from 'jwt-decode';
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { CartContext } from '../../Context/Cart/Provider';
 import { LoginContext } from '../../Context/Login/Provider';
 import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
@@ -11,7 +12,7 @@ import {
   LoginFieldContainer,
   LoginHeading,
   LoginImage,
-  OuterContainer
+  OuterContainer,
 } from './Login.styles';
 
 function Login() {
@@ -20,6 +21,7 @@ function Login() {
   const [loginError, setLoginError] = useState(null);
   const history = useHistory();
   const location = useLocation();
+  const [cart, cartDispatch] = React.useContext(CartContext);
   const [state, dispatch] = React.useContext(LoginContext);
   const onSubmit = async () => {
     setLoginError(null);
@@ -38,6 +40,15 @@ function Login() {
           type: 'LOGIN_SUCCESS',
           payload: { token: res.data.token, name },
         });
+
+        const response = await axiosInstance.get('/cart');
+        if (response.status === 200 && response.data.cart !== null) {
+          console.log(response);
+          cartDispatch({
+            type: 'SET_CART',
+            payload: response.data.cart.products,
+          });
+        }
 
         if (location.state && location.state.from.pathname !== '/') {
           history.push(location.state.from.pathname);

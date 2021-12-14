@@ -32,6 +32,9 @@ const CheckOutItem = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  @media (max-width: 780px) {
+    flex-direction: column;
+  }
 `;
 const ProductPrice = styled.div`
   padding: 40px 10px 0px 0px;
@@ -43,6 +46,12 @@ const CheckOutItemDetails = styled.div`
 `;
 const CheckOutImageContainer = styled.div`
   max-width: 300px;
+`;
+const LogoImageContainer = styled.div`
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+  object-fit: contain;
 `;
 const CheckOutNameContainer = styled.div`
   padding: 40px 10px 0px 0px;
@@ -59,11 +68,16 @@ const PriceOrderContainer = styled.div`
 `;
 const OrderImageContainer = styled.div`
   max-width: 300px;
+  display: flex;
+  align-items: center;
 `;
 const CheckInnerContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 780px) {
+    flex-direction: column;
+  }
 `;
 const PaymentContainer = styled.div`
   padding: 40px 0px;
@@ -85,6 +99,7 @@ export {
   OrderImageContainer,
   PriceOrderContainer,
   ProductPrice,
+  LogoImageContainer,
   PaymentContainer,
   CheckInnerContainer,
 };

@@ -28,7 +28,7 @@ const Logo = styled.img`
   width: 100%;
   height: 20px;
   object-fit: contain;
-  margin: 20px 20px 10px 10px;
+  margin: 20px 0px 10px 0px;
 `;
 const FlexContainer = styled.div`
   display: flex;

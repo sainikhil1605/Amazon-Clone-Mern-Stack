@@ -17,7 +17,7 @@ import {
   CheckOutNameContainer,
   HeadingContainer,
   InnerContainer,
-  OrderImageContainer,
+  LogoImageContainer,
   OuterContainer,
   PaymentContainer,
   PriceOrderContainer,
@@ -80,9 +80,9 @@ function Checkout() {
           <CheckOutItems>
             {cart.map((product, index) => (
               <CheckOutItem key={product._id}>
-                <OrderImageContainer>
+                <LogoImageContainer>
                   <ProductImage src={logo} alt="product" />
-                </OrderImageContainer>
+                </LogoImageContainer>
                 <CheckOutNameContainer>
                   <div>{product.name}</div>
                   <div>{product.description}</div>
@@ -107,6 +107,7 @@ function Checkout() {
                   Quantity
                   <div>
                     <button
+                      style={{ margin: '0px 5px' }}
                       type="button"
                       onClick={() => handleDecrease(index, product)}
                     >
@@ -114,10 +115,9 @@ function Checkout() {
                     </button>
                     {product.quantity}{' '}
                     <button
+                      style={{ margin: '0px 5px' }}
                       type="button"
-                      onClick={() =>
-                        handleIncrease(index, product, product.quantity)
-                      }
+                      onClick={() => handleIncrease(index, product)}
                     >
                       +
                     </button>

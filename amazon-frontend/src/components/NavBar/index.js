@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { CartContext } from '../../Context/Cart/Provider';
 import { LoginContext } from '../../Context/Login/Provider';
 import logo from '../../logo2.png';
-import axiosInstance from '../../utils/axiosInstance';
 import {
   BasketIcon,
   BasketIconContainer,
@@ -17,7 +16,7 @@ import {
   NavUpperSpan,
   SearchBar,
   SearchBarContainer,
-  Searchicon
+  Searchicon,
 } from './NavBarElements';
 
 function NavBar() {
@@ -27,17 +26,7 @@ function NavBar() {
     dispatch({ type: 'LOGOUT' });
     cartDispatch({ type: 'CLEAR_CART' });
   };
-  useEffect(() => {
-    const getCart = async () => {
-      if (loginState.isLoggedIn) {
-        const res = await axiosInstance.get('/cart');
-        if (res.status === 200) {
-          localStorage.setItem('cart', JSON.stringify(res.data.cart.products));
-        }
-      }
-    };
-    getCart();
-  }, [cart, loginState]);
+  useEffect(() => {}, [cart, loginState]);
   return (
     <NavContainer>
       <LogoSearchContainer>

@@ -40,8 +40,16 @@ const Reducer = (state, action) => {
         ...tempCart[payload],
         quantity: tempCart[payload].quantity - 1,
       };
-
       return tempCart;
+    case 'INCREASE_QUANTITY':
+      tempCart[payload] = {
+        ...tempCart[payload],
+        quantity: tempCart[payload].quantity + 1,
+      };
+      return tempCart;
+    case 'SET_CART':
+      localStorage.setItem('cart', JSON.stringify(payload));
+      return payload;
 
     default:
       return state;
