@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
+
   if (!email || !password) {
     res
       .status(StatusCodes.BAD_REQUEST)
@@ -13,7 +13,7 @@ const login = async (req, res) => {
   if (!user) {
     res.status(StatusCodes.BAD_REQUEST).json({ error: 'User not found' });
   } else {
-    const checkPassword = user.comparePassword(password);
+    const checkPassword = await user.comparePassword(password);
     if (!checkPassword) {
       res
         .status(StatusCodes.UNAUTHORIZED)
