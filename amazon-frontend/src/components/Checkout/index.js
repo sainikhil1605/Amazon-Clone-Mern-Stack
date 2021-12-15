@@ -6,7 +6,6 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { CartContext } from '../../Context/Cart/Provider';
 import { LoginContext } from '../../Context/Login/Provider';
-import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
 import { ProductImage } from '../Product/ProductElements';
 import {
@@ -81,7 +80,7 @@ function Checkout() {
             {cart.map((product, index) => (
               <CheckOutItem key={product._id}>
                 <LogoImageContainer>
-                  <ProductImage src={logo} alt="product" />
+                  <ProductImage src={product.imageURL} alt="product" />
                 </LogoImageContainer>
                 <CheckOutNameContainer>
                   <div>{product.name}</div>

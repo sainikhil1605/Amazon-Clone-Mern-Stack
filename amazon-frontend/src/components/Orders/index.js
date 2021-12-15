@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect, useState } from 'react';
-import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
 import Loader from '../../utils/loader';
 import { ProductImage } from '../Product/ProductElements';
@@ -21,13 +20,13 @@ import {
   OrderStyles,
   OuterContainer,
   PriceOrderContainer,
-  TrackOrder,
+  TrackOrder
 } from './Orders.styles';
 
 const calculateTotalCost = (order) => {
   const totalCost = order.products.reduce(
     (acc, product) => acc + product.productPrice * product.quantity,
-    0
+    0,
   );
   return totalCost;
 };
@@ -63,8 +62,8 @@ function Orders() {
         {!orders && !loading && (
           <OrderPaper>This place is empty order something</OrderPaper>
         )}
-        {orders &&
-          orders.map((order) => (
+        {orders
+          && orders.map((order) => (
             <OrderPaper key={order._id}>
               <OrderDetails>
                 <div className={styles.flexContainer}>
@@ -83,7 +82,7 @@ function Orders() {
               {order.products.map((product) => (
                 <OrderSpecificDetails key={product._id}>
                   <OrderImageContainer>
-                    <ProductImage src={logo} alt="product" />
+                    <ProductImage src={product.imageURL} alt="product" />
                   </OrderImageContainer>
                   <OrderNameContainer>
                     <div>{product.productName}</div>

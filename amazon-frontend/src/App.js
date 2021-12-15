@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SignUp from './components/SignUp';
 import { CartProvider } from './Context/Cart/Provider';
 import { LoginProvider } from './Context/Login/Provider';
+import { SearchProvider } from './Context/Search/Provider';
 import muitheme from './themes';
 
 function App() {
@@ -23,25 +24,27 @@ function App() {
       <ErrorBoundary>
         <LoginProvider>
           <CartProvider>
-            {pathArray.indexOf(location.pathname) !== -1 ? <NavBar /> : null}
+            <SearchProvider>
+              {pathArray.indexOf(location.pathname) !== -1 ? <NavBar /> : null}
 
-            <Switch>
-              <Route exact path="/signUp">
-                <SignUp />
-              </Route>
-              <Route exact path="/checkout">
-                <Checkout />
-              </Route>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <PrivateRoute exact path="/orders">
-                <Orders />
-              </PrivateRoute>
-            </Switch>
+              <Switch>
+                <Route exact path="/signUp">
+                  <SignUp />
+                </Route>
+                <Route exact path="/checkout">
+                  <Checkout />
+                </Route>
+                <Route exact path="/login">
+                  <Login />
+                </Route>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <PrivateRoute exact path="/orders">
+                  <Orders />
+                </PrivateRoute>
+              </Switch>
+            </SearchProvider>
           </CartProvider>
         </LoginProvider>
       </ErrorBoundary>

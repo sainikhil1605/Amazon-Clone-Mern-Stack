@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { SearchContext } from '../../Context/Search/Provider';
 import axiosInstance from '../../utils/axiosInstance';
 import Loader from '../../utils/loader';
 import banner from '../gradimage.jpg';
@@ -9,18 +10,24 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [search] = React.useContext(SearchContext);
   const pages = [1, 2, 3];
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const res = await axiosInstance.get(`/products?page=${page}`);
+      let res;
+      if (search) {
+        res = await axiosInstance.get(`/products/?name=${search}`);
+      } else {
+        res = await axiosInstance.get(`/products?page=${page}`);
+      }
       if (res.status === 200) {
         setProducts(res.data.products);
       }
       setLoading(false);
     };
     getProducts();
-  }, [page, setPage]);
+  }, [page, setPage, search]);
   if (loading) {
     return <Loader />;
   }

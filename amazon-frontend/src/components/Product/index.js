@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 import Rating from 'react-rating';
 import { CartContext } from '../../Context/Cart/Provider';
-import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
 import {
   ProductButton,
@@ -31,7 +30,8 @@ function Product(props) {
   };
   return (
     <ProductContainer>
-      <ProductImage src={logo} alt="Product Image" />
+      <ProductImage src={product.imageURL} alt="Product" />
+
       <ProductInfo>
         <p>{title}</p>
         <ProductPrice>

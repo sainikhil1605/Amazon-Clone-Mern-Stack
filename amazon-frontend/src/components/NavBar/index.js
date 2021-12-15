@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../Context/Cart/Provider';
 import { LoginContext } from '../../Context/Login/Provider';
+import { SearchContext } from '../../Context/Search/Provider';
 import logo from '../../logo2.png';
 import {
   BasketIcon,
@@ -22,11 +23,16 @@ import {
 function NavBar() {
   const [cart, cartDispatch] = useContext(CartContext);
   const [loginState, dispatch] = useContext(LoginContext);
+  const [searchState, searchDispatch] = useContext(SearchContext);
+  const [search, setSearch] = useState('');
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
     cartDispatch({ type: 'CLEAR_CART' });
   };
   useEffect(() => {}, [cart, loginState]);
+  const handleSearch = () => {
+    searchDispatch({ type: 'SET_SEARCH', payload: search });
+  };
   return (
     <NavContainer>
       <LogoSearchContainer>
@@ -34,8 +40,8 @@ function NavBar() {
           <Logo src={logo} alt="Logo" />
         </Link>
         <SearchBarContainer>
-          <SearchBar type="text" />
-          <Searchicon />
+          <SearchBar type="text" onChange={(e) => setSearch(e.target.value)} />
+          <Searchicon onClick={() => handleSearch()} />
         </SearchBarContainer>
       </LogoSearchContainer>
       <NavLinkContainer>

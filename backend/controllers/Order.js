@@ -11,7 +11,8 @@ const addOrderDetails = async (order) => {
       });
       const productName = productDetails.name;
       const productPrice = productDetails.price;
-      const tempObj = { ...product, productName, productPrice };
+      const productImage = productDetails.imageURL;
+      const tempObj = { ...product, productName, productPrice, productImage };
       return tempObj;
     })
   );
