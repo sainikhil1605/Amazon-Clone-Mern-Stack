@@ -3,7 +3,11 @@ const Product = require('../models/Product');
 
 const getAllProducts = async (req, res) => {
   const { sort, name } = req.query;
-  const result = Product.find({ name: { $regex: name, $options: 'i' } });
+  let result;
+  if(name){
+    result = Product.find({ name: { $regex: name, $options: 'i' } });
+  }
+  result=Product.find({});
   if (sort) {
     const sortList = sort.split(',').join(' ');
     result.sort(sortList);
