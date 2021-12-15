@@ -2,8 +2,8 @@ const { StatusCodes } = require('http-status-codes');
 const Product = require('../models/Product');
 
 const getAllProducts = async (req, res) => {
-  const { sort } = req.query;
-  const result = Product.find({});
+  const { sort, name } = req.query;
+  const result = Product.find({ name: { $regex: name, $options: 'i' } });
   if (sort) {
     const sortList = sort.split(',').join(' ');
     result.sort(sortList);
