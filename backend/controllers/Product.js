@@ -7,7 +7,9 @@ const getAllProducts = async (req, res) => {
   if(name){
     result = Product.find({ name: { $regex: name, $options: 'i' } });
   }
+  else{
   result=Product.find({});
+  }
   if (sort) {
     const sortList = sort.split(',').join(' ');
     result.sort(sortList);
