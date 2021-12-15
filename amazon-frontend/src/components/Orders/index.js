@@ -82,7 +82,7 @@ function Orders() {
               {order.products.map((product) => (
                 <OrderSpecificDetails key={product._id}>
                   <OrderImageContainer>
-                    <ProductImage src={product.imageURL} alt="product" />
+                    <ProductImage src={product.productImage} alt="product" />
                   </OrderImageContainer>
                   <OrderNameContainer>
                     <div>{product.productName}</div>
