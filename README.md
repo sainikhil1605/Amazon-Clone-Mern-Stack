@@ -1,7 +1,7 @@
 # Amazon-Clone-Mern-Stack
 
 <h3>API Documentation Can be found at</h3>
-<a href="https://documenter.getpostman.com/view/15294592/UVR8qTco">Amazon Clone API Docs</a>
+<a target="_blank" href="https://documenter.getpostman.com/view/15294592/UVR8qTco">Amazon Clone API Docs</a>
 
 
 
