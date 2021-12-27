@@ -3,9 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, TextField } from '@material-ui/core';
 import { Typography } from '@mui/material';
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { CartContext } from '../../Context/Cart/Provider';
-import { LoginContext } from '../../Context/Login/Provider';
 import axiosInstance from '../../utils/axiosInstance';
 import { ProductImage } from '../Product/ProductElements';
 import {
@@ -33,8 +32,10 @@ const calculateTotalCost = (cart) => {
 
 function Checkout() {
   const history = useHistory();
-  const [cart, dispatch] = React.useContext(CartContext);
-  const [loginState] = React.useContext(LoginContext);
+
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const loginState = useSelector((state) => state.login);
   useEffect(() => [cart]);
   const placeOrder = async () => {
     if (!loginState.isLoggedIn) {
@@ -46,6 +47,10 @@ function Checkout() {
     }));
     await axiosInstance.post('/orders', { products });
     dispatch({ type: 'CLEAR_CART' });
+    dispatch({
+      type: 'ADD_TOAST',
+      payload: { type: 'success', message: 'Order Placed' },
+    });
     history.push('/orders');
   };
   const handleRemove = async (index, product) => {

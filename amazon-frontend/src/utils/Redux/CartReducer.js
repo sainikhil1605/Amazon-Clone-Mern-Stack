@@ -6,7 +6,15 @@ const checkProduct = (cart, product) => {
   }
   return -1;
 };
-const Reducer = (state, action) => {
+
+let initialState;
+if (localStorage.getItem('cart')) {
+  initialState = [...JSON.parse(localStorage.getItem('cart'))];
+} else {
+  initialState = [];
+}
+
+const CartReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   const index = checkProduct(state, payload);
@@ -56,4 +64,4 @@ const Reducer = (state, action) => {
   }
 };
 
-export default Reducer;
+export default CartReducer;

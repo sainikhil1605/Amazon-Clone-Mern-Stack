@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { LoginContext } from '../../Context/Login/Provider';
 import logo from '../../logo.png';
 import axiosInstance from '../../utils/axiosInstance';
 import {
@@ -19,7 +19,7 @@ function SignUp() {
   const [name, setName] = useState('');
   const [singUpError, setSignUpError] = useState(null);
   const history = useHistory();
-  const [state, dispatch] = React.useContext(LoginContext);
+  const dispatch = useDispatch();
   // useEffect(() => {
   //   document
   //     .getElementById('signUpButton')
@@ -44,7 +44,7 @@ function SignUp() {
       });
       if (res.status === 200) {
         dispatch({
-          type: 'LOGIN_SUCCES',
+          type: 'LOGIN_SUCCESS',
           payload: { token: res.data.token, name },
         });
 

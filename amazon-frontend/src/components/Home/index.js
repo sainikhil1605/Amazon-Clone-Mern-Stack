@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SearchContext } from '../../Context/Search/Provider';
+import { useSelector } from 'react-redux';
 import axiosInstance from '../../utils/axiosInstance';
 import Loader from '../../utils/loader';
 import banner from '../gradimage.jpg';
@@ -10,7 +10,7 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [search] = React.useContext(SearchContext);
+  const search = useSelector((state) => state.search);
   const pages = [1, 2, 3];
   useEffect(() => {
     const getProducts = async () => {
@@ -54,14 +54,14 @@ function Home() {
           flexDirection: 'row',
         }}
       >
-        View More Products {'>>'}
+        View More Products
+        {'>>'}
         {pages.map((pageNum) => (
           <button
             style={{ margin: '0px 10px' }}
             type="button"
             key={pageNum}
             onClick={() => {
-              console.log(pageNum);
               setPage(pageNum);
             }}
           >

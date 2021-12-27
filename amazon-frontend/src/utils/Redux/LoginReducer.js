@@ -1,4 +1,8 @@
-const Reducer = (state, action) => {
+const initialState = {
+  isLoggedIn: localStorage.getItem('token') !== null,
+  name: localStorage.getItem('name') || '',
+};
+const LoginReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
       localStorage.setItem('token', action.payload.token);
@@ -15,4 +19,4 @@ const Reducer = (state, action) => {
       return state;
   }
 };
-export default Reducer;
+export default LoginReducer;

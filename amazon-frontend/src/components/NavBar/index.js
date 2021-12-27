@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { CartContext } from '../../Context/Cart/Provider';
-import { LoginContext } from '../../Context/Login/Provider';
-import { SearchContext } from '../../Context/Search/Provider';
 import logo from '../../logo2.png';
 import {
   BasketIcon,
@@ -17,21 +15,21 @@ import {
   NavUpperSpan,
   SearchBar,
   SearchBarContainer,
-  Searchicon,
+  Searchicon
 } from './NavBarElements';
 
 function NavBar() {
-  const [cart, cartDispatch] = useContext(CartContext);
-  const [loginState, dispatch] = useContext(LoginContext);
-  const [searchState, searchDispatch] = useContext(SearchContext);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const loginState = useSelector((state) => state.login);
   const [search, setSearch] = useState('');
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
-    cartDispatch({ type: 'CLEAR_CART' });
+    dispatch({ type: 'CLEAR_CART' });
   };
   useEffect(() => {}, [cart, loginState]);
   const handleSearch = () => {
-    searchDispatch({ type: 'SET_SEARCH', payload: search });
+    dispatch({ type: 'SET_SEARCH', payload: search });
   };
   return (
     <NavContainer>

@@ -18,13 +18,20 @@ const ProductContainer = styled.div`
   @media (max-width: 780px) {
     max-width: 100%;
   }
+  .product-link {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 const ProductPrice = styled.p`
   margin-top: 5px;
 `;
 const ProductRating = styled.div``;
 const ProductImage = styled.img`
-  object-fit: contain;
+  /* object-fit: contain; */
+
+  /* max-width: 300px; */
+  max-width: 300px;
   width: 100%;
   max-height: 200px;
   margin-bottom: 15px;
@@ -40,6 +47,7 @@ const ProductInfo = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
 export {
   ProductContainer,
   ProductPrice,
