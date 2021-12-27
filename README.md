@@ -1,3 +1,44 @@
 # Amazon-Clone-Mern-Stack
 
-<img src="image1.png" alt="Orders page" />
+<h3>API Documentation Can be found at</h3>
+<a target="_blank" href="https://documenter.getpostman.com/view/15294592/UVR8qTco">Amazon Clone API Docs</a>
+
+
+
+## Home Page
+<img src="homepage.png" alt="Home Page" />
+
+## Orders Page
+<img src="orders.png" alt="Orders Page"/>
+
+## Cart Page
+<img src="cart.png" alt="Cart page" />
+
+# Technologies Used
+
+<ul>
+  <li>React Js</li>
+  <li>Node Js</li>
+  <li>Express Js</li>
+  <li>Mongoo DB</li>
+</ul>
+
+# ```.env``` Variables
+<h2>Front End </h2>
+
+<code>REACT_APP_API_URL=</code> Enter URL your backend
+
+<h2>Back End</h2>
+
+<ul>
+  <li><code>PORT=</code>Assign to port number of your choice</li>
+  <li><code>JWT_SECRET=</code> Assign secret string for JWT</li>
+  <li><code>JWT_EXPIRES_IN=</code> Assign JWT expiry time</li>
+  <li><code>CONNECTION_STRING=</code> Assign MONGOO DB connection string</li>
+  </ul>
+<h1>Running the App</h1>
+
+<h2>Front End</h2>
+After initialising the <code>.env</code> mode to <code>amazon-frontend/</code> and run the command <code>npm install</code> and to start the application run <code>npm start</code>
+<h2>Back End</h2>
+  After initialising the <code>.env</code> mode to <code>backend/</code> and run the command <code>npm install</code> and to start the application run <code>node app.js</code>
