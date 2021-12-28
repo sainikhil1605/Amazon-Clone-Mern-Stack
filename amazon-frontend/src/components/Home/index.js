@@ -1,3 +1,12 @@
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Slider,
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../utils/axiosInstance';
@@ -10,17 +19,21 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const search = useSelector((state) => state.search);
+  const [category, setCategory] = useState('');
+  const search = useSelector((state) => state.search.search);
+  const [displayFilters, setDisplayFilters] = useState(false);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [inStock, setInStock] = useState(true);
+  const [ratingRange, setRatingRange] = useState([0, 5]);
   const pages = [1, 2, 3];
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      let res;
-      if (search) {
-        res = await axiosInstance.get(`/products/?name=${search}`);
-      } else {
-        res = await axiosInstance.get(`/products?page=${page}`);
-      }
+
+      const res = await axiosInstance.get(
+        `/products?page=${page}&name=${search}&select=-description`
+      );
+
       if (res.status === 200) {
         setProducts(res.data.products);
       }
@@ -28,13 +41,109 @@ function Home() {
     };
     getProducts();
   }, [page, setPage, search]);
+  const handleFilters = async () => {
+    const res = await axiosInstance.get(
+      `/products?page=${page}&name=${search}&select=-description&numericFilters=price>${priceRange[0]},price<${priceRange[1]},rating>${ratingRange[0]},rating<${ratingRange[1]}&inStock=${inStock}`
+    );
+
+    if (res.status === 200) {
+      setProducts(res.data.products);
+    }
+  };
   if (loading) {
     return <Loader />;
   }
   return (
     <HomeContainer>
       <BannerImage src={banner} />
-
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          position: 'relative',
+        }}
+      >
+        <div className="filters">
+          <button
+            className="filter-button"
+            style={{ width: '100%' }}
+            type="button"
+            onClick={() => {
+              setDisplayFilters((prevState) => !prevState);
+            }}
+          >
+            Filters +
+          </button>
+          <div className={displayFilters ? 'show' : 'hide'}>
+            <div className="filters-paper">
+              <FormControl variant="outlined" style={{ width: '100%' }}>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Select by Category
+                </InputLabel>
+                <Select
+                  fullWidth
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={category}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
+                  label="Select By Category"
+                >
+                  <MenuItem value="Grocery">Grocery</MenuItem>
+                  <MenuItem value="Electronics">Electronics</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className="slider">
+              Price Range
+              <Slider
+                value={priceRange}
+                onChange={(e, newValue) => {
+                  setPriceRange(newValue);
+                }}
+                valueLabelDisplay="auto"
+                max={1000}
+              />
+            </div>
+            <div className="slider">
+              Rating Range
+              <Slider
+                value={ratingRange}
+                step={0.5}
+                onChange={(e, newValue) => {
+                  setRatingRange(newValue);
+                }}
+                max={5}
+                valueLabelDisplay="auto"
+              />
+            </div>
+            <div className="slider">
+              <FormControlLabel
+                control={
+                  // eslint-disable-next-line react/jsx-wrap-multilines
+                  <Checkbox
+                    checked={inStock}
+                    onChange={() => setInStock(!inStock)}
+                    name="Stock"
+                  />
+                }
+                label="Show only in stock"
+              />
+            </div>
+            <div className="slider">
+              <button
+                type="button"
+                className="filter-button"
+                onClick={() => handleFilters()}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <ProductsContainer>
         {products.map((product) => (
           <Product
@@ -42,7 +151,6 @@ function Home() {
             title={product.name}
             price={product.price}
             rating={product.rating}
-            description={product.description}
             product={product}
           />
         ))}
@@ -69,9 +177,6 @@ function Home() {
           </button>
         ))}
       </div>
-      <ProductsContainer>
-        <div>Shop By Category</div>
-      </ProductsContainer>
     </HomeContainer>
   );
 }
