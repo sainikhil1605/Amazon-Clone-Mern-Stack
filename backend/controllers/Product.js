@@ -49,10 +49,18 @@ const getAllProducts = async (req, res) => {
   const page = Number(req.query.page) || 1;
 
   const products = await result.skip((page - 1) * limit).limit(limit);
+  const count = await Product.countDocuments(queryObject);
   if (!products) {
     throw new Error('Something went wrong');
   }
-  res.status(StatusCodes.OK).send({ products, hits: products.length });
+  res.status(StatusCodes.OK).send({
+    products,
+    hits: products.length,
+    count,
+    totalPages: Math.ceil(count / limit),
+    page,
+    limit,
+  });
 };
 const getProduct = async (req, res) => {
   const product = await Product.findById(req.params.id);
