@@ -29,10 +29,10 @@ const OrderSchema = new mongoose.Schema(
           type: String,
           enum: ['pending', 'delivered', 'cancelled'],
           default: 'pending',
-          lastUpdatedAt: {
-            type: Date,
-            default: Date.now(),
-          },
+        },
+        lastUpdatedAt: {
+          type: Date,
+          default: Date.now(),
         },
       },
     ],
