@@ -3,7 +3,14 @@
 <h3>API Documentation Can be found at</h3>
 <a target="_blank" href="https://documenter.getpostman.com/view/15294592/UVR8qTco">Amazon Clone API Docs</a>
 
-
+## Backend Features
+<ul>
+  <li>Pagination for Products</li>
+  <li>Numeric Filters for product prices</li>
+  <li>Sorting Feature</li>
+  <li>Select Feature for product fields</li>
+  <li>Search Feature for category and name fields for product</li>
+ </ul>
 
 ## Home Page
 <img src="homepage.png" alt="Home Page" />
