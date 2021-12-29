@@ -31,7 +31,7 @@ function Home() {
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-
+      console.log(search);
       const res = await axiosInstance.get(
         `/products?page=${page}&limit=${limit}&name=${search}&select=-description&category=${category}&numericFilters=price>${priceRange[0]},price<${priceRange[1]},rating>${ratingRange[0]},rating<${ratingRange[1]}&inStock=${inStock}`
       );
@@ -171,7 +171,7 @@ function Home() {
       <div className="pagination">
         <div className="limit-filter">
           <span>Showing</span>
-          <FormControl variant="outlined">
+          <FormControl variant="outlined" size="small" margin="dense">
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
@@ -189,28 +189,41 @@ function Home() {
           </FormControl>
           <span>per page out of {total}</span>
         </div>
-        <div
-          style={{
-            float: 'right',
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
-          {totalPages !== 1 ? 'View More Products >>' : null}
-          {Array(totalPages)
-            .fill(null)
-            .map((value, index) => (
-              <button
-                style={{ margin: '0px 10px' }}
-                type="button"
-                key={index}
-                onClick={() => {
-                  setPage(index + 1);
-                }}
-              >
-                {index + 1}
-              </button>
-            ))}
+        <div className="page-button-container">
+          <div>{totalPages !== 1 ? 'View More Products ' : null}</div>
+          <div>
+            <button
+              className="page-buttons"
+              type="button"
+              onClick={() => setPage(page - 1)}
+            >
+              {'<'}
+            </button>
+            {Array(totalPages)
+              .fill(null)
+              .map((value, index) => (
+                <button
+                  style={{ margin: '0px 10px' }}
+                  type="button"
+                  key={index}
+                  className={`page-buttons ${
+                    page === index + 1 ? 'active' : ''
+                  }`}
+                  onClick={() => {
+                    setPage(index + 1);
+                  }}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            <button
+              className="page-buttons"
+              type="button"
+              onClick={() => setPage(page + 1)}
+            >
+              {'>'}
+            </button>
+          </div>
         </div>
       </div>
     </HomeContainer>

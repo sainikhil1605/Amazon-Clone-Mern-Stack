@@ -35,9 +35,11 @@ const CartReducer = (state = initialState, action) => {
       localStorage.setItem('cart', JSON.stringify(tempCart));
       return tempCart;
     case 'CLEAR_CART':
+      localStorage.removeItem('cart');
       return [];
     case 'REMOVE_FROM_CART':
       tempCart.splice(payload.index, 1);
+      localStorage.setItem('cart', JSON.stringify(tempCart));
       return tempCart;
     case 'DECREASE_QUANTITY':
       if (tempCart[payload].quantity === 1) {
@@ -48,12 +50,14 @@ const CartReducer = (state = initialState, action) => {
         ...tempCart[payload],
         quantity: tempCart[payload].quantity - 1,
       };
+      localStorage.setItem('cart', JSON.stringify(tempCart));
       return tempCart;
     case 'INCREASE_QUANTITY':
       tempCart[payload] = {
         ...tempCart[payload],
         quantity: tempCart[payload].quantity + 1,
       };
+      localStorage.setItem('cart', JSON.stringify(tempCart));
       return tempCart;
     case 'SET_CART':
       localStorage.setItem('cart', JSON.stringify(payload));

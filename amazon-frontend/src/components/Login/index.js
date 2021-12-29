@@ -21,7 +21,9 @@ function Login() {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const onSubmit = async () => {
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
     setLoginError(null);
     if (!email || !password) {
       setLoginError('Please enter email and password');
@@ -35,14 +37,15 @@ function Login() {
 
       if (res.status === 200) {
         const { name } = jwt(res.data.token);
+
         dispatch({
           type: 'LOGIN_SUCCESS',
           payload: { token: res.data.token, name },
         });
 
         const response = await axiosInstance.get('/cart');
+
         if (response.status === 200 && response.data.cart !== null) {
-          console.log(response);
           dispatch({
             type: 'SET_CART',
             payload: response.data.cart.products,
@@ -65,36 +68,39 @@ function Login() {
       {/* <div style={{ margin: '10px' }}> */}
       <InnerContainer>
         <LoginContainer>
-          <LoginImage src={logo} alt="Logo Image" />
-          <LoginHeading>Login</LoginHeading>
-          <LoginFieldContainer>
-            {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
-            <TextField
-              type="text"
-              label="Email"
-              varaint="outlined"
-              fullWidth
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </LoginFieldContainer>
-          <LoginFieldContainer>
-            <TextField
-              type="password"
-              label="Password"
-              varaint="outlined"
-              fullWidth
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </LoginFieldContainer>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => onSubmit()}
-          >
-            Login
-          </Button>
+          <form onSubmit={onSubmit}>
+            <LoginImage src={logo} alt="Logo Image" />
+            <LoginHeading>Login</LoginHeading>
+            <LoginFieldContainer>
+              {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+              <TextField
+                type="text"
+                label="Email"
+                varaint="outlined"
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </LoginFieldContainer>
+            <LoginFieldContainer>
+              <TextField
+                type="password"
+                label="Password"
+                varaint="outlined"
+                fullWidth
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </LoginFieldContainer>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={(e) => onSubmit(e)}
+            >
+              Login
+            </Button>
+          </form>
           <div>
             New User?
             <Button onClick={() => history.push('/signUp')}>SingUp</Button>

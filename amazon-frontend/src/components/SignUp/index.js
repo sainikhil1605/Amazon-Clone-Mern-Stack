@@ -10,7 +10,7 @@ import {
   LoginFieldContainer,
   LoginHeading,
   LoginImage,
-  OuterContainer,
+  OuterContainer
 } from '../Login/Login.styles';
 
 function SignUp() {
@@ -20,17 +20,9 @@ function SignUp() {
   const [singUpError, setSignUpError] = useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   document
-  //     .getElementById('signUpButton')
-  //     .addEventListener('keyup', (event) => {
-  //       if (event.keyCode === 13) {
-  //         event.preventDefault();
-  //         document.getElementById('signUpButton').click();
-  //       }
-  //     });
-  // }, []);
-  const onSubmit = async () => {
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
     setSignUpError(null);
     if (!name || !email || !password) {
       setSignUpError('Please fill all the fields');
@@ -64,50 +56,52 @@ function SignUp() {
     <OuterContainer>
       <InnerContainer>
         <LoginContainer>
-          <LoginImage src={logo} alt="Logo Image" />
-          <LoginHeading>Sign Up</LoginHeading>
-          <LoginFieldContainer>
-            {singUpError && <p>{singUpError}</p>}
-            <TextField
-              type="text"
-              label="Name"
-              id="Name"
-              variant="outlined"
-              fullWidth
-              autoFocus
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </LoginFieldContainer>
-          <LoginFieldContainer>
-            <TextField
-              type="text"
-              label="Email"
-              varaint="outlined"
-              fullWidth
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </LoginFieldContainer>
-          <LoginFieldContainer>
-            <TextField
-              type="password"
-              label="Password"
-              varaint="outlined"
-              fullWidth
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </LoginFieldContainer>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => onSubmit()}
-            id="signUpButton"
-            onKeyDown={(e) => e.which === 13 && onSubmit()}
-          >
-            Sign Up
-          </Button>
+          <form onSubmit={onSubmit}>
+            <LoginImage src={logo} alt="Logo Image" />
+            <LoginHeading>Sign Up</LoginHeading>
+            <LoginFieldContainer>
+              {singUpError && <p>{singUpError}</p>}
+              <TextField
+                type="text"
+                label="Name"
+                id="Name"
+                variant="outlined"
+                fullWidth
+                autoFocus
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </LoginFieldContainer>
+            <LoginFieldContainer>
+              <TextField
+                type="text"
+                label="Email"
+                varaint="outlined"
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </LoginFieldContainer>
+            <LoginFieldContainer>
+              <TextField
+                type="password"
+                label="Password"
+                varaint="outlined"
+                fullWidth
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </LoginFieldContainer>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={(e) => onSubmit(e)}
+              id="signUpButton"
+              type="submit"
+            >
+              Sign Up
+            </Button>
+          </form>
         </LoginContainer>
       </InnerContainer>
     </OuterContainer>

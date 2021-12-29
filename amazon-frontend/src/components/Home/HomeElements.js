@@ -56,6 +56,29 @@ const HomeContainer = styled.div`
     display: flex;
     align-items: center;
   }
+  .page-button-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #fafafa;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .page-buttons {
+    background-color: #fafafa;
+    border: none;
+    cursor: pointer;
+    color: gray;
+
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .active {
+    background-color: #3498db;
+    color: white;
+  }
 `;
 const BannerImage = styled.img`
   width: 100%;

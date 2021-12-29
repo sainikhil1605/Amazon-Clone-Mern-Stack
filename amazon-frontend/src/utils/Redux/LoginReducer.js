@@ -3,11 +3,12 @@ const initialState = {
   name: localStorage.getItem('name') || '',
 };
 const LoginReducer = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case 'LOGIN_SUCCESS':
-      localStorage.setItem('token', action.payload.token);
-      localStorage.setItem('name', action.payload.name);
-      return { ...state, isLoggedIn: true, name: action.payload.name };
+      localStorage.setItem('token', payload.token);
+      localStorage.setItem('name', payload.name);
+      return { ...state, isLoggedIn: true, name: payload.name };
     case 'LOGIN_FAILURE':
       return { ...state, isLoggedIn: false, name: null };
     case 'LOGOUT':

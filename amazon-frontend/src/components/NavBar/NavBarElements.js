@@ -23,6 +23,7 @@ const LogoSearchContainer = styled.div`
   }
   flex-direction: row;
   width: 100%;
+  align-items: center;
 `;
 const Logo = styled.img`
   width: 100%;

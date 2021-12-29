@@ -15,7 +15,7 @@ import {
   NavUpperSpan,
   SearchBar,
   SearchBarContainer,
-  Searchicon
+  Searchicon,
 } from './NavBarElements';
 
 function NavBar() {
@@ -28,7 +28,9 @@ function NavBar() {
     dispatch({ type: 'CLEAR_CART' });
   };
   useEffect(() => {}, [cart, loginState]);
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+
     dispatch({ type: 'SET_SEARCH', payload: search });
   };
   return (
@@ -37,10 +39,15 @@ function NavBar() {
         <Link to="/">
           <Logo src={logo} alt="Logo" />
         </Link>
-        <SearchBarContainer>
-          <SearchBar type="text" onChange={(e) => setSearch(e.target.value)} />
-          <Searchicon onClick={() => handleSearch()} />
-        </SearchBarContainer>
+        <form onSubmit={handleSearch} style={{ width: '100%' }}>
+          <SearchBarContainer>
+            <SearchBar
+              type="text"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Searchicon type="submit" onClick={(e) => handleSearch(e)} />
+          </SearchBarContainer>
+        </form>
       </LogoSearchContainer>
       <NavLinkContainer>
         <NavLink to="/login">

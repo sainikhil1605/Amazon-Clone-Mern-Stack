@@ -22,13 +22,13 @@ import {
   OrderStyles,
   OuterContainer,
   PriceOrderContainer,
-  TrackOrder
+  TrackOrder,
 } from './Orders.styles';
 
 const calculateTotalCost = (order) => {
   const totalCost = order.products.reduce(
     (acc, product) => acc + product.productPrice * product.quantity,
-    0,
+    0
   );
   return totalCost;
 };
@@ -75,8 +75,8 @@ function Orders() {
         {!orders && !loading && (
           <OrderPaper>This place is empty order something</OrderPaper>
         )}
-        {orders
-          && orders.map((order) => (
+        {orders &&
+          orders.map((order) => (
             <OrderPaper key={order._id}>
               <OrderDetails>
                 <div className={styles.flexContainer}>
@@ -124,7 +124,7 @@ function Orders() {
               ))}
               <OrderPaymentDetails>
                 <div>
-                  {order.orderStatus !== 'pending' ? (
+                  {order.orderStatus === 'pending' ? (
                     <Button onClick={() => handleCancel(order._id)}>
                       Cancel Order
                     </Button>

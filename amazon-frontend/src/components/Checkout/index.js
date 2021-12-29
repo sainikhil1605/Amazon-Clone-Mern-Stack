@@ -20,13 +20,14 @@ import {
   OuterContainer,
   PaymentContainer,
   PriceOrderContainer,
-  ProductPrice
+  ProductPrice,
 } from './Checkout.styles';
 
 const calculateTotalCost = (cart) => {
   const totalCost = cart.reduce(
-    (acc, product) => (product.inStock ? acc + product.price * product.quantity : 0),
-    0,
+    (acc, product) =>
+      product.inStock ? acc + product.price * product.quantity : 0,
+    0
   );
   return totalCost;
 };
@@ -49,6 +50,7 @@ function Checkout() {
     await axiosInstance.post('/orders', { products });
     dispatch({ type: 'CLEAR_CART' });
     toast.success('Order Placed');
+    await axiosInstance.delete('/cart');
     history.push('/orders');
   };
   const handleRemove = async (index, product) => {
@@ -123,8 +125,7 @@ function Checkout() {
                     >
                       -
                     </button>
-                    {product.quantity}
-                    {' '}
+                    {product.quantity}{' '}
                     <button
                       style={{ margin: '0px 5px' }}
                       type="button"
