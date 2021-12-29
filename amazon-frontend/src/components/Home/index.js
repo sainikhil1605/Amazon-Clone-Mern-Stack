@@ -22,32 +22,43 @@ function Home() {
   const [category, setCategory] = useState('');
   const search = useSelector((state) => state.search.search);
   const [displayFilters, setDisplayFilters] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [inStock, setInStock] = useState(true);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [inStock, setInStock] = useState('');
   const [ratingRange, setRatingRange] = useState([0, 5]);
-  const pages = [1, 2, 3];
+  const [totalPages, setTotalPages] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [limit, setLimit] = useState(10);
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
 
       const res = await axiosInstance.get(
-        `/products?page=${page}&name=${search}&select=-description`
+        `/products?page=${page}&limit=${limit}&name=${search}&select=-description&category=${category}&numericFilters=price>${priceRange[0]},price<${priceRange[1]},rating>${ratingRange[0]},rating<${ratingRange[1]}&inStock=${inStock}`
       );
 
       if (res.status === 200) {
         setProducts(res.data.products);
+        setTotalPages(res.data.totalPages);
+        setTotal(res.data.count);
       }
       setLoading(false);
     };
     getProducts();
-  }, [page, setPage, search]);
+  }, [search, page, limit]);
   const handleFilters = async () => {
-    const res = await axiosInstance.get(
-      `/products?page=${page}&name=${search}&select=-description&numericFilters=price>${priceRange[0]},price<${priceRange[1]},rating>${ratingRange[0]},rating<${ratingRange[1]}&inStock=${inStock}`
-    );
+    if (page === 1) {
+      const res = await axiosInstance.get(
+        `/products?page=${page}&name=${search}&select=-description&category=${category}&numericFilters=price>${priceRange[0]},price<${priceRange[1]},rating>${ratingRange[0]},rating<${ratingRange[1]}&inStock=${inStock}`
+      );
 
-    if (res.status === 200) {
-      setProducts(res.data.products);
+      if (res.status === 200) {
+        setProducts(res.data.products);
+        setDisplayFilters(false);
+        setTotalPages(res.data.totalPages);
+        setPage(1);
+      }
+    } else {
+      setPage(1);
     }
   };
   if (loading) {
@@ -136,7 +147,9 @@ function Home() {
               <button
                 type="button"
                 className="filter-button"
-                onClick={() => handleFilters()}
+                onClick={() => {
+                  handleFilters();
+                }}
               >
                 Done
               </button>
@@ -155,27 +168,50 @@ function Home() {
           />
         ))}
       </ProductsContainer>
-      <div
-        style={{
-          float: 'right',
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
-        View More Products
-        {'>>'}
-        {pages.map((pageNum) => (
-          <button
-            style={{ margin: '0px 10px' }}
-            type="button"
-            key={pageNum}
-            onClick={() => {
-              setPage(pageNum);
-            }}
-          >
-            {pageNum}
-          </button>
-        ))}
+      <div className="pagination">
+        <div className="limit-filter">
+          <span>Showing</span>
+          <FormControl variant="outlined">
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={limit}
+              onChange={(e) => {
+                setLimit(e.target.value);
+              }}
+              label="Select By Category"
+            >
+              <MenuItem value="5">5</MenuItem>
+              <MenuItem value="10">10</MenuItem>
+              <MenuItem value="15">15</MenuItem>
+              <MenuItem value="20">20</MenuItem>
+            </Select>
+          </FormControl>
+          <span>per page out of {total}</span>
+        </div>
+        <div
+          style={{
+            float: 'right',
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          {totalPages !== 1 ? 'View More Products >>' : null}
+          {Array(totalPages)
+            .fill(null)
+            .map((value, index) => (
+              <button
+                style={{ margin: '0px 10px' }}
+                type="button"
+                key={index}
+                onClick={() => {
+                  setPage(index + 1);
+                }}
+              >
+                {index + 1}
+              </button>
+            ))}
+        </div>
       </div>
     </HomeContainer>
   );

@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
+import { Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axiosInstance';
 import Loader from '../../utils/loader';
 import { ProductImage } from '../Product/ProductElements';
@@ -34,6 +36,17 @@ function Orders() {
   const styles = OrderStyles();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const handleCancel = async (id) => {
+    const index = orders.findIndex((temporder) => temporder._id === id);
+    const order = orders[index];
+    order.orderStatus = 'cancelled';
+    orders[index] = { ...order };
+    setOrders([...orders]);
+    toast.warning('Order Cancelled');
+    await axiosInstance.patch(`/orders/${id}`, {
+      status: 'cancelled',
+    });
+  };
   useEffect(() => {
     const getOrders = async () => {
       setLoading(true);
@@ -110,7 +123,13 @@ function Orders() {
                 </OrderSpecificDetails>
               ))}
               <OrderPaymentDetails>
-                <div>Cancel Order</div>
+                <div>
+                  {order.orderStatus !== 'pending' ? (
+                    <Button onClick={() => handleCancel(order._id)}>
+                      Cancel Order
+                    </Button>
+                  ) : null}
+                </div>
                 <div className={styles.grayDiv}>
                   Payed using credit card ending with 1234
                 </div>

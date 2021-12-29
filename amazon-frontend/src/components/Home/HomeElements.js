@@ -46,6 +46,16 @@ const HomeContainer = styled.div`
     padding: 15px;
     border-radius: 10px;
   }
+  .pagination {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+  }
+  .limit-filter {
+    display: flex;
+    align-items: center;
+  }
 `;
 const BannerImage = styled.img`
   width: 100%;

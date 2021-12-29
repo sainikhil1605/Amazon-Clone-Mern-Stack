@@ -5,6 +5,7 @@ import { Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axiosInstance';
 import { ProductImage } from '../Product/ProductElements';
 import {
@@ -19,13 +20,13 @@ import {
   OuterContainer,
   PaymentContainer,
   PriceOrderContainer,
-  ProductPrice,
+  ProductPrice
 } from './Checkout.styles';
 
 const calculateTotalCost = (cart) => {
   const totalCost = cart.reduce(
-    (acc, product) => acc + product.price * product.quantity,
-    0
+    (acc, product) => (product.inStock ? acc + product.price * product.quantity : 0),
+    0,
   );
   return totalCost;
 };
@@ -47,10 +48,7 @@ function Checkout() {
     }));
     await axiosInstance.post('/orders', { products });
     dispatch({ type: 'CLEAR_CART' });
-    dispatch({
-      type: 'ADD_TOAST',
-      payload: { type: 'success', message: 'Order Placed' },
-    });
+    toast.success('Order Placed');
     history.push('/orders');
   };
   const handleRemove = async (index, product) => {
@@ -59,19 +57,25 @@ function Checkout() {
       payload: { index },
     });
     const productId = product._id || product.productId;
-    await axiosInstance.delete(`/cart/${productId}`);
+    if (loginState.isLoggedIn) {
+      await axiosInstance.delete(`/cart/${productId}`);
+    }
   };
   const handleDecrease = async (index, product) => {
     dispatch({ type: 'DECREASE_QUANTITY', payload: index });
-    await axiosInstance.patch(`/cart/${product._id || product.productId}`, {
-      action: 'DECREASE',
-    });
+    if (loginState.isLoggedIn) {
+      await axiosInstance.patch(`/cart/${product._id || product.productId}`, {
+        action: 'DECREASE',
+      });
+    }
   };
   const handleIncrease = async (index, product) => {
     dispatch({ type: 'INCREASE_QUANTITY', payload: index });
-    await axiosInstance.patch(`/cart/${product._id || product.productId}`, {
-      action: 'INCREASE',
-    });
+    if (loginState.isLoggedIn) {
+      await axiosInstance.patch(`/cart/${product._id || product.productId}`, {
+        action: 'INCREASE',
+      });
+    }
   };
   return (
     <OuterContainer>
@@ -90,7 +94,9 @@ function Checkout() {
                 <CheckOutNameContainer>
                   <div>{product.name}</div>
                   <div>{product.description}</div>
-                  <div style={{ padding: '10px 0px' }}>In Stock</div>
+                  <div style={{ padding: '10px 0px' }}>
+                    {product.inStock ? 'In Stock' : 'Out of Stock'}
+                  </div>
                   <PriceOrderContainer>
                     <Button
                       type="button"
@@ -117,7 +123,8 @@ function Checkout() {
                     >
                       -
                     </button>
-                    {product.quantity}{' '}
+                    {product.quantity}
+                    {' '}
                     <button
                       style={{ margin: '0px 5px' }}
                       type="button"
