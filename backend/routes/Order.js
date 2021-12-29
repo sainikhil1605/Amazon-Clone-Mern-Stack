@@ -8,6 +8,7 @@ const {
 
 router.get('/', getOrders);
 router.post('/', addOrders);
+
 router.get('/:id', getOrder);
 router.patch('/:id', updateOrder);
 module.exports = router;

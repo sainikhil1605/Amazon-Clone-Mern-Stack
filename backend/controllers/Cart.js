@@ -2,6 +2,7 @@ const Cart = require('../models/Cart');
 
 const getCart = async (req, res) => {
   const userCart = await Cart.findOne({ createdBy: req.user.userId });
+
   res.status(200).json({ cart: userCart });
 };
 
@@ -77,4 +78,15 @@ const changeQuantity = async (req, res) => {
     res.status(200).json({ cart: userCart });
   }
 };
-module.exports = { getCart, addToCart, removeFromCart, changeQuantity };
+const clearCart = async (req, res) => {
+  const userCart = await Cart.findOneAndDelete({ createdBy: req.user.userId });
+
+  res.status(200).json({ cart: userCart });
+};
+module.exports = {
+  getCart,
+  addToCart,
+  removeFromCart,
+  changeQuantity,
+  clearCart,
+};
