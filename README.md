@@ -12,14 +12,17 @@
   <li>Search Feature for category and name fields for product</li>
  </ul>
 
+## Cart Feature
+The below image illustrates the working of cart feature
+<img src="cart.png" alt="Cart page" />
+
 ## Home Page
 <img src="homepage.png" alt="Home Page" />
 
 ## Orders Page
 <img src="orders.png" alt="Orders Page"/>
 
-## Cart Page
-<img src="cart.png" alt="Cart page" />
+
 
 # Technologies Used
 
