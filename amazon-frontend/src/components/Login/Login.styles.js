@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Paper } from '@material-ui/core';
 import styled from 'styled-components';
 
 const OuterContainer = styled.div`

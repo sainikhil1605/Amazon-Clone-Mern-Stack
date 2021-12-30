@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createBrowserHistory } from 'history';
 import { toast } from 'react-toastify';
-import store from './Redux/store';
+import store from './store';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/v1`,
@@ -25,4 +25,40 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance;
+const apiGetCall = async (url) => {
+  try {
+    const response = await axiosInstance.get(url);
+    return response;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const apiPostCall = async (url, payload) => {
+  try {
+    const response = await axiosInstance.post(url, payload);
+    return response;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const apiDeleteCall = async (url) => {
+  try {
+    const response = await axiosInstance.delete(url);
+    return response;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+const apiPatchCall = async (url, payload) => {
+  try {
+    const response = await axiosInstance.patch(url, payload);
+    return response;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+export { axiosInstance, apiGetCall, apiPostCall, apiDeleteCall, apiPatchCall };

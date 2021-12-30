@@ -1,12 +1,14 @@
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, TextField } from '@material-ui/core';
-import { Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@material-ui/core';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../utils/axiosInstance';
+import {
+  apiDeleteCall,
+  apiPatchCall,
+  apiPostCall,
+} from '../../utils/axiosInstance';
 import { ProductImage } from '../Product/ProductElements';
 import {
   CheckInnerContainer,
@@ -24,11 +26,10 @@ import {
 } from './Checkout.styles';
 
 const calculateTotalCost = (cart) => {
-  const totalCost = cart.reduce(
-    (acc, product) =>
-      product.inStock ? acc + product.price * product.quantity : 0,
-    0
-  );
+  const totalCost = cart.reduce((acc, product) => {
+    if (product.inStock) return acc + product.price * product.quantity;
+    return 0;
+  }, 0);
   return totalCost;
 };
 
@@ -39,20 +40,23 @@ function Checkout() {
   const cart = useSelector((state) => state.cart);
   const loginState = useSelector((state) => state.login);
   useEffect(() => [cart]);
+
   const placeOrder = async () => {
     if (!loginState.isLoggedIn) {
       history.push('/login');
+    } else {
+      const products = cart.map((product) => ({
+        productId: product._id || product.productId,
+        quantity: product.quantity,
+      }));
+      await apiPostCall('/orders', { products });
+      dispatch({ type: 'CLEAR_CART' });
+      toast.success('Order Placed');
+      await apiDeleteCall('/cart');
+      history.push('/orders');
     }
-    const products = cart.map((product) => ({
-      productId: product._id || product.productId,
-      quantity: product.quantity,
-    }));
-    await axiosInstance.post('/orders', { products });
-    dispatch({ type: 'CLEAR_CART' });
-    toast.success('Order Placed');
-    await axiosInstance.delete('/cart');
-    history.push('/orders');
   };
+
   const handleRemove = async (index, product) => {
     dispatch({
       type: 'REMOVE_FROM_CART',
@@ -60,21 +64,23 @@ function Checkout() {
     });
     const productId = product._id || product.productId;
     if (loginState.isLoggedIn) {
-      await axiosInstance.delete(`/cart/${productId}`);
+      await apiDeleteCall(`/cart/${productId}`);
     }
   };
+
   const handleDecrease = async (index, product) => {
     dispatch({ type: 'DECREASE_QUANTITY', payload: index });
     if (loginState.isLoggedIn) {
-      await axiosInstance.patch(`/cart/${product._id || product.productId}`, {
+      await apiPatchCall(`/cart/${product._id || product.productId}`, {
         action: 'DECREASE',
       });
     }
   };
+
   const handleIncrease = async (index, product) => {
     dispatch({ type: 'INCREASE_QUANTITY', payload: index });
     if (loginState.isLoggedIn) {
-      await axiosInstance.patch(`/cart/${product._id || product.productId}`, {
+      await apiPatchCall(`/cart/${product._id || product.productId}`, {
         action: 'INCREASE',
       });
     }
@@ -83,7 +89,7 @@ function Checkout() {
     <OuterContainer>
       <InnerContainer>
         <HeadingContainer>
-          <FontAwesomeIcon icon={faShoppingCart} />
+          <ShoppingCart fontSize="medium" />
           <Typography variant="h4">My Cart</Typography>
         </HeadingContainer>
         <CheckInnerContainer>
@@ -125,7 +131,7 @@ function Checkout() {
                     >
                       -
                     </button>
-                    {product.quantity}{' '}
+                    {product.quantity}
                     <button
                       style={{ margin: '0px 5px' }}
                       type="button"

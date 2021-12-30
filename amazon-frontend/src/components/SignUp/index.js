@@ -1,16 +1,16 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import logo from '../../logo.png';
-import axiosInstance from '../../utils/axiosInstance';
+import { axiosInstance } from '../../utils/axiosInstance';
 import {
   InnerContainer,
   LoginContainer,
   LoginFieldContainer,
   LoginHeading,
   LoginImage,
-  OuterContainer
+  OuterContainer,
 } from '../Login/Login.styles';
 
 function SignUp() {

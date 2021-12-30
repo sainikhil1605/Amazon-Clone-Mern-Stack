@@ -21,5 +21,6 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'react-jsx-one-expression-per-line': 'off',
     'object-curly-newline': 'off',
+    'operator-linebreak': 'off',
   },
 };

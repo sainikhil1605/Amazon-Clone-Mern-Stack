@@ -6,7 +6,7 @@ import Rating from 'react-rating';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../utils/axiosInstance';
+import { apiGetCall, apiPostCall } from '../../utils/axiosInstance';
 import Loader from '../../utils/loader';
 import { ProductButton, ProductDetail } from './ProductDetails.styles';
 
@@ -19,11 +19,9 @@ function ProductDetails() {
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
-      const response = await axiosInstance(`/products/${id}`);
-      if (response.status === 200) {
-        setProduct(response.data);
-        setLoading(false);
-      }
+      const response = await apiGetCall(`/products/${id}`);
+      setProduct(response.data);
+      setLoading(false);
     };
     getData();
   }, [id]);
@@ -38,7 +36,7 @@ function ProductDetails() {
       ...product,
     };
     if (loginStatus.isLoggedIn) {
-      await axiosInstance.post('/cart', { products: [finalProduct] });
+      await apiPostCall('/cart', { products: [finalProduct] });
     }
   };
   return (

@@ -1,4 +1,3 @@
-/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
@@ -12,6 +11,7 @@ function PrivateRoute({ children, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
+        // eslint-disable-next-line implicit-arrow-linebreak
         state.isLoggedIn ? (
           children
         ) : (

@@ -1,10 +1,10 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField } from '@material-ui/core';
 import jwt from 'jwt-decode';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../../logo.png';
-import axiosInstance from '../../utils/axiosInstance';
+import { axiosInstance } from '../../utils/axiosInstance';
 import {
   InnerContainer,
   LoginContainer,
@@ -65,7 +65,6 @@ function Login() {
   };
   return (
     <OuterContainer>
-      {/* <div style={{ margin: '10px' }}> */}
       <InnerContainer>
         <LoginContainer>
           <form onSubmit={onSubmit}>
@@ -74,9 +73,8 @@ function Login() {
             <LoginFieldContainer>
               {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
               <TextField
-                type="text"
                 label="Email"
-                varaint="outlined"
+                variant="outlined"
                 fullWidth
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -86,7 +84,7 @@ function Login() {
               <TextField
                 type="password"
                 label="Password"
-                varaint="outlined"
+                variant="outlined"
                 fullWidth
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -107,7 +105,6 @@ function Login() {
           </div>
         </LoginContainer>
       </InnerContainer>
-      {/* </div> */}
     </OuterContainer>
   );
 }

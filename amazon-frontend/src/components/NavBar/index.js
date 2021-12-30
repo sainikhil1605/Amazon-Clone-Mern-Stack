@@ -28,11 +28,12 @@ function NavBar() {
     dispatch({ type: 'CLEAR_CART' });
   };
   useEffect(() => {}, [cart, loginState]);
+
   const handleSearch = (e) => {
     e.preventDefault();
-
     dispatch({ type: 'SET_SEARCH', payload: search });
   };
+
   return (
     <NavContainer>
       <LogoSearchContainer>

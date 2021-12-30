@@ -2,7 +2,7 @@
 import { Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../utils/axiosInstance';
+import { apiGetCall, apiPatchCall } from '../../utils/axiosInstance';
 import Loader from '../../utils/loader';
 import { ProductImage } from '../Product/ProductElements';
 import {
@@ -43,24 +43,16 @@ function Orders() {
     orders[index] = { ...order };
     setOrders([...orders]);
     toast.warning('Order Cancelled');
-    await axiosInstance.patch(`/orders/${id}`, {
+    await apiPatchCall(`/orders/${id}`, {
       status: 'cancelled',
     });
   };
   useEffect(() => {
     const getOrders = async () => {
       setLoading(true);
-      try {
-        const res = await axiosInstance.get('/orders?sort=-orderedAt');
-
-        if (res.status === 200) {
-          setOrders(res.data.orders);
-        }
-        setLoading(false);
-      } catch (err) {
-        setOrders([]);
-        setLoading(false);
-      }
+      const res = await apiGetCall('/orders?sort=-orderedAt');
+      setOrders(res.data.orders);
+      setLoading(false);
     };
     getOrders();
   }, []);
@@ -84,7 +76,7 @@ function Orders() {
                     Order <span className={styles.orderId}>{order._id}</span>
                   </OrderId>
                   <OrderPlaced>
-                    Order Placed :{' '}
+                    Order Placed :
                     <span className={styles.orderPlaced}>
                       {new Date(order.orderedAt).toLocaleString()}
                     </span>

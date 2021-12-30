@@ -6,7 +6,7 @@ import Rating from 'react-rating';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../utils/axiosInstance';
+import { apiPostCall } from '../../utils/axiosInstance';
 import {
   ProductButton,
   ProductContainer,
@@ -32,7 +32,7 @@ function Product(props) {
       ...product,
     };
     if (loginStatus.isLoggedIn) {
-      await axiosInstance.post('/cart', { products: [finalProduct] });
+      await apiPostCall('/cart', { products: [finalProduct] });
     }
   };
   return (

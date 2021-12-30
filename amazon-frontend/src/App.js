@@ -15,7 +15,7 @@ import PrivateRoute from './components/PrivateRoute';
 import ProductDetails from './components/ProductDetails';
 import SignUp from './components/SignUp';
 import muitheme from './themes';
-import store from './utils/Redux/store';
+import store from './utils/store';
 
 function App() {
   const location = useLocation();

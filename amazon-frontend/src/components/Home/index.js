@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import axiosInstance from '../../utils/axiosInstance';
+import { apiGetCall } from '../../utils/axiosInstance';
 import Loader from '../../utils/loader';
 import banner from '../gradimage.jpg';
 import Product from '../Product';
@@ -31,32 +31,26 @@ function Home() {
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      console.log(search);
-      const res = await axiosInstance.get(
+      const res = await apiGetCall(
         `/products?page=${page}&limit=${limit}&name=${search}&select=-description&category=${category}&numericFilters=price>${priceRange[0]},price<${priceRange[1]},rating>${ratingRange[0]},rating<${ratingRange[1]}&inStock=${inStock}`
       );
-
-      if (res.status === 200) {
-        setProducts(res.data.products);
-        setTotalPages(res.data.totalPages);
-        setTotal(res.data.count);
-      }
+      setProducts(res.data.products);
+      setTotalPages(res.data.totalPages);
+      setTotal(res.data.count);
       setLoading(false);
     };
     getProducts();
   }, [search, page, limit]);
   const handleFilters = async () => {
     if (page === 1) {
-      const res = await axiosInstance.get(
+      const res = await apiGetCall(
         `/products?page=${page}&name=${search}&select=-description&category=${category}&numericFilters=price>${priceRange[0]},price<${priceRange[1]},rating>${ratingRange[0]},rating<${ratingRange[1]}&inStock=${inStock}`
       );
 
-      if (res.status === 200) {
-        setProducts(res.data.products);
-        setDisplayFilters(false);
-        setTotalPages(res.data.totalPages);
-        setPage(1);
-      }
+      setProducts(res.data.products);
+      setDisplayFilters(false);
+      setTotalPages(res.data.totalPages);
+      setPage(1);
     } else {
       setPage(1);
     }
