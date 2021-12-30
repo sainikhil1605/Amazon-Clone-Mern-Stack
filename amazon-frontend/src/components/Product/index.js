@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import StarIcon from '@material-ui/icons/Star';
 import React, { useEffect } from 'react';
 import Rating from 'react-rating';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,8 +48,8 @@ function Product(props) {
             <Rating
               readonly
               initialRating={rating}
-              fullSymbol={<FontAwesomeIcon icon={faStar} color="gold" />}
-              emptySymbol={<FontAwesomeIcon icon={faStar} color="gray" />}
+              fullSymbol={<StarIcon style={{ color: 'gold' }} />}
+              emptySymbol={<StarIcon style={{ color: 'grey' }} />}
             />
           </ProductRating>
         </ProductInfo>

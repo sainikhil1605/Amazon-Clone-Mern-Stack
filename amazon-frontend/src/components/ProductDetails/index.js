@@ -1,6 +1,5 @@
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Paper, Typography } from '@material-ui/core';
+import StarIcon from '@material-ui/icons/Star';
 import React, { useEffect, useState } from 'react';
 import Rating from 'react-rating';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,8 +62,8 @@ function ProductDetails() {
                 <Rating
                   readonly
                   initialRating={product.rating}
-                  fullSymbol={<FontAwesomeIcon icon={faStar} color="gold" />}
-                  emptySymbol={<FontAwesomeIcon icon={faStar} color="gray" />}
+                  fullSymbol={<StarIcon style={{ color: 'gold' }} />}
+                  emptySymbol={<StarIcon style={{ color: 'grey' }} />}
                 />
               </div>
               <div className="mt">
